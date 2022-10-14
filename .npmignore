@@ -1,0 +1,12 @@
+node_modules/
+yarn-error.log
+yarn.lock
+
+.editorconfig
+coverage/
+test/
+.travis.yml
+
+docs/
+.github/
+tsconfig.json

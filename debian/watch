@@ -1,0 +1,26 @@
+version=4
+opts=\
+dversionmangle=s/\+(debian|dfsg|ds|deb)(\.\d+)?$//,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-postcss-$1.tar.gz/ \
+ https://github.com/postcss/postcss/tags .*/archive/v?([\d\.]+).tar.gz group
+
+opts=\
+component=colorette,\
+ctype=nodejs,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-colorette-$1.tar.gz/ \
+ https://github.com/jorgebucaran/colorette/tags .*/archive/v?([\d\.]+).tar.gz checksum
+
+opts=\
+component=nanoid,\
+ctype=nodejs,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-nanoid-$1.tar.gz/ \
+ https://github.com/ai/nanoid/tags .*/archive/v?([\d\.]+).tar.gz checksum
+
+opts=\
+component=line-column,\
+ctype=nodejs,\
+dversionmangle=auto,\
+filenamemangle=s/.*\/v?([\d\.-]+)\.tar\.gz/node-line-column-$1.tar.gz/ \
+ https://github.com/io-monad/line-column/tags .*/archive/v?([\d\.]+).tar.gz checksum

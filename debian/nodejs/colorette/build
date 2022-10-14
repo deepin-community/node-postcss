@@ -1,0 +1,1 @@
+node -e "fs.writeFileSync('index.cjs',fs.readFileSync('index.js','utf8').replace(/export const /g,'exports.'),'utf8')"

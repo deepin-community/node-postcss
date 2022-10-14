@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+node ./debian/tests/CVE-2021-23368.js
+node ./debian/tests/CVE-2021-23382.js

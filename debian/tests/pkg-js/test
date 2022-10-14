@@ -1,0 +1,2 @@
+echo "Disable tests because ts-jest is not packaged"
+#jest --ci test
