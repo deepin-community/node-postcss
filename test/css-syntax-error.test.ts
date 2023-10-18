@@ -1,82 +1,172 @@
-import { red, bold, magenta, yellow, gray, cyan } from 'colorette'
-import { join, resolve as pathResolve } from 'path'
-import { pathToFileURL } from 'url'
-import stripAnsi from 'strip-ansi'
 import Concat from 'concat-with-sourcemaps'
+import { join, resolve as pathResolve } from 'path'
+import * as pico from 'picocolors'
+import stripAnsi = require('strip-ansi')
+import { pathToFileURL } from 'url'
+import { test } from 'uvu'
+import { equal, is, match, type } from 'uvu/assert'
 
 import postcss, {
-  ProcessOptions,
   CssSyntaxError,
   Plugin,
+  ProcessOptions,
   Rule
 } from '../lib/postcss.js'
 
-function parseError (css: string, opts?: Pick<ProcessOptions, 'map' | 'from'>) {
-  let error
+function isSyntaxError(e: unknown): e is CssSyntaxError {
+  return e instanceof Error && e.name === 'CssSyntaxError'
+}
+
+async function catchError(cb: () => Promise<any>): Promise<CssSyntaxError> {
   try {
-    postcss.parse(css, opts)
+    await cb()
   } catch (e) {
-    if (e.name === 'CssSyntaxError') {
-      error = e
+    if (isSyntaxError(e)) {
+      return e
     } else {
       throw e
     }
   }
-  return error
+  throw new Error('Error was not thrown')
 }
 
-it('saves source', () => {
+function parseError(
+  css: string,
+  opts?: Pick<ProcessOptions, 'from' | 'map'>
+): CssSyntaxError {
+  try {
+    postcss.parse(css, opts)
+  } catch (e) {
+    if (isSyntaxError(e)) {
+      return e
+    } else {
+      throw e
+    }
+  }
+  throw new Error('Error was not thrown')
+}
+
+test('saves source', () => {
   let error = parseError('a {\n  content: "\n}')
 
-  expect(error instanceof CssSyntaxError).toBe(true)
-  expect(error.name).toEqual('CssSyntaxError')
-  expect(error.message).toEqual('<css input>:2:12: Unclosed string')
-  expect(error.reason).toEqual('Unclosed string')
-  expect(error.line).toEqual(2)
-  expect(error.column).toEqual(12)
-  expect(error.source).toEqual('a {\n  content: "\n}')
+  is(error instanceof CssSyntaxError, true)
+  is(error.name, 'CssSyntaxError')
+  is(error.message, '<css input>:2:12: Unclosed string')
+  is(error.reason, 'Unclosed string')
+  is(error.line, 2)
+  is(error.column, 12)
+  is(error.source, 'a {\n  content: "\n}')
 
-  expect(error.input).toEqual({
-    line: error.line,
+  equal(error.input, {
     column: error.column,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
+    line: error.line,
+    source: error.source,
+  })
+})
+
+test('saves source with ranges', () => {
+  let error = parseError('badword')
+
+  is(error instanceof CssSyntaxError, true)
+  is(error.name, 'CssSyntaxError')
+  is(error.message, '<css input>:1:1: Unknown word')
+  is(error.reason, 'Unknown word')
+  is(error.line, 1)
+  is(error.column, 1)
+  is(error.endLine, 1)
+  is(error.endColumn, 8)
+  is(error.source, 'badword')
+
+  equal(error.input, {
+    column: error.column,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
+    line: error.line,
     source: error.source
   })
 })
 
-it('has stack trace', () => {
-  expect(parseError('a {\n  content: "\n}').stack).toMatch(
+test('has stack trace', () => {
+  match(parseError('a {\n  content: "\n}').stack,
     /css-syntax-error\.test\.ts/
   )
 })
 
-it('highlights broken line with colors', () => {
-  expect(parseError('#a .b c() {').showSourceCode(true)).toEqual(
-    bold(red('>')) +
-      gray(' 1 | ') +
-      magenta('#a') +
+test('saves source with ranges', () => {
+  let error = parseError('badword')
+
+ is(error instanceof CssSyntaxError, true)
+ is(error.name, 'CssSyntaxError')
+ is(error.message, '<css input>:1:1: Unknown word')
+ is(error.reason, 'Unknown word')
+ is(error.line, 1)
+ is(error.column, 1)
+ is(error.endLine, 1)
+ is(error.endColumn, 8)
+ is(error.source, 'badword')
+
+ equal(error.input, {
+    column: error.column,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
+    line: error.line,
+    source: error.source
+  })
+})
+
+test('saves source with ranges', () => {
+  let error = parseError('badword')
+
+ is(error instanceof CssSyntaxError, true)
+ is(error.name, 'CssSyntaxError')
+ is(error.message, '<css input>:1:1: Unknown word')
+ is(error.reason, 'Unknown word')
+ is(error.line, 1)
+ is(error.column, 1)
+ is(error.endLine, 1)
+ is(error.endColumn, 8)
+ is(error.source, 'badword')
+
+ equal(error.input, {
+    column: error.column,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
+    line: error.line,
+    source: error.source
+  })
+})
+
+test('highlights broken line with colors', () => {
+  is(
+    parseError('#a .b c() {').showSourceCode(true),
+    pico.bold(pico.red('>')) +
+      pico.gray(' 1 | ') +
+      pico.magenta('#a') +
       ' ' +
-      yellow('.b') +
+      pico.yellow('.b') +
       ' ' +
-      cyan('c') +
-      cyan('()') +
+      pico.cyan('c') +
+      pico.cyan('()') +
       ' ' +
-      yellow('{') +
+      pico.yellow('{') +
       '\n ' +
-      gray('   | ') +
-      bold(red('^'))
+      pico.gray('   | ') +
+      pico.bold(pico.red('^'))
   )
 })
 
-it('highlights broken line', () => {
-  expect(parseError('a {\n  content: "\n}').showSourceCode(false)).toEqual(
+test('highlights broken line', () => {
+  is(
+    parseError('a {\n  content: "\n}').showSourceCode(false),
     '  1 | a {\n' + '> 2 |   content: "\n' + '    |            ^\n' + '  3 | }'
   )
 })
 
-it('highlights broken line, when indented with tabs', () => {
-  expect(
-    parseError('a {\n\t \t  content:\t"\n}').showSourceCode(false)
-  ).toEqual(
+test('highlights broken line, when indented with tabs', () => {
+  is(
+    parseError('a {\n\t \t  content:\t"\n}').showSourceCode(false),
     '  1 | a {\n' +
       '> 2 | \t \t  content:\t"\n' +
       '    | \t \t          \t^\n' +
@@ -84,15 +174,14 @@ it('highlights broken line, when indented with tabs', () => {
   )
 })
 
-it('highlights small code example', () => {
-  expect(parseError('a {').showSourceCode(false)).toEqual(
-    '> 1 | a {\n' + '    | ^'
-  )
+test('highlights small code example', () => {
+  is(parseError('a {').showSourceCode(false), '> 1 | a {\n' + '    | ^')
 })
 
-it('add leading space for line numbers', () => {
+test('add leading space for line numbers', () => {
   let css = '\n\n\n\n\n\n\na {\n  content: "\n}\n\n\n'
-  expect(parseError(css).showSourceCode(false)).toEqual(
+  is(
+    parseError(css).showSourceCode(false),
     '   7 | \n' +
       '   8 | a {\n' +
       '>  9 |   content: "\n' +
@@ -102,8 +191,9 @@ it('add leading space for line numbers', () => {
   )
 })
 
-it('prints with highlight', () => {
-  expect(stripAnsi(parseError('a {').toString())).toEqual(
+test('prints with highlight', () => {
+  is(
+    stripAnsi(parseError('a {').toString()),
     'CssSyntaxError: <css input>:1:1: Unclosed block\n' +
       '\n' +
       '> 1 | a {\n' +
@@ -111,22 +201,20 @@ it('prints with highlight', () => {
   )
 })
 
-it('misses highlights without source content', () => {
+test('misses highlights without source content', () => {
   let error = parseError('a {')
-  error.source = null
-  expect(error.toString()).toEqual(
-    'CssSyntaxError: <css input>:1:1: Unclosed block'
-  )
+  error.source = undefined
+  is(error.toString(), 'CssSyntaxError: <css input>:1:1: Unclosed block')
 })
 
-it('misses position without source', () => {
+test('misses position without source', () => {
   let decl = postcss.decl({ prop: 'color', value: 'black' })
   let error = decl.error('Test')
-  expect(error.toString()).toEqual('CssSyntaxError: <css input>: Test')
+  is(error.toString(), 'CssSyntaxError: <css input>: Test')
 })
 
-it('uses source map', () => {
-  function urlOf (file: string) {
+test('uses source map', () => {
+  function urlOf(file: string): string {
     return pathToFileURL(join(__dirname, file)).toString()
   }
 
@@ -139,21 +227,23 @@ it('uses source map', () => {
     map: { prev: concat.sourceMap }
   })
 
-  expect(error.file).toEqual(join(__dirname, 'b.css'))
-  expect(error.line).toEqual(2)
-  expect(error.source).not.toBeDefined()
+  is(error.file, join(__dirname, 'b.css'))
+  is(error.line, 2)
+  type(error.source, 'undefined')
 
-  expect(error.input).toEqual({
-    url: urlOf(join('build', 'all.css')),
+  equal(error.input, {
+    column: 1,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
     file: join(__dirname, 'build', 'all.css'),
     line: 3,
-    column: 1,
-    source: 'a { }\n\nb {\n'
+    source: 'a { }\n\nb {\n',
+    url: urlOf(join('build', 'all.css')),
   })
 })
 
-it('works with path in sources', () => {
-  function pathOf (file: string) {
+test('works with path in sources', () => {
+  function pathOf(file: string): string {
     return join(__dirname, file)
   }
 
@@ -166,91 +256,89 @@ it('works with path in sources', () => {
     map: { prev: concat.sourceMap }
   })
 
-  expect(error.file).toEqual(join(__dirname, 'b.css'))
-  expect(error.line).toEqual(2)
-  expect(error.source).not.toBeDefined()
+  is(error.file, join(__dirname, 'b.css'))
+  is(error.line, 2)
+  type(error.source, 'undefined')
 
-  expect(error.input).toEqual({
-    url: pathToFileURL(pathOf(join('build', 'all.css'))).toString(),
+  equal(error.input, {
+    column: 1,
+    endColumn: error.endColumn,
+    endLine: error.endLine,
     file: join(__dirname, 'build', 'all.css'),
     line: 3,
-    column: 1,
-    source: 'a { }\n\nb {\n'
+    source: 'a { }\n\nb {\n',
+    url: pathToFileURL(pathOf(join('build', 'all.css'))).toString(),
   })
 })
 
-it('shows origin source', () => {
+test('shows origin source', () => {
   let input = postcss([() => {}]).process('a{}', {
     from: '/a.css',
-    to: '/b.css',
-    map: { inline: false }
+    map: { inline: false },
+    to: '/b.css'
   })
   let error = parseError('a{', {
     from: '/b.css',
     map: { prev: input.map }
   })
-  expect(error.source).toEqual('a{}')
+  is(error.source, 'a{}')
 })
 
-it('does not uses wrong source map', () => {
+test('does not uses wrong source map', () => {
   let error = parseError('a { }\nb {', {
     from: 'build/all.css',
     map: {
       prev: {
-        version: 3,
         file: 'build/all.css',
+        mappings: 'A',
         sources: ['a.css', 'b.css'],
-        mappings: 'A'
+        version: 3
       }
     }
   })
-  expect(error.file).toEqual(pathResolve('build/all.css'))
+  is(error.file, pathResolve('build/all.css'))
 })
 
-it('set source plugin', () => {
+test('set source plugin', () => {
   let a = postcss.parse('a{}').first as Rule
   let error = a.error('Error', { plugin: 'PL' })
-  expect(error.plugin).toEqual('PL')
-  expect(error.toString()).toMatch(
-    /^CssSyntaxError: PL: <css input>:1:1: Error/
-  )
+  is(error.plugin, 'PL')
+  match(error.toString(), /^CssSyntaxError: PL: <css input>:1:1: Error/)
 })
 
-it('set source plugin automatically', () => {
+test('set source plugin automatically', async () => {
   let plugin: Plugin = {
-    postcssPlugin: 'test-plugin',
-    Once (css) {
+    Once(css) {
       if (css.first) {
         throw css.first.error('Error')
       }
-    }
+    },
+    postcssPlugin: 'test-plugin'
   }
 
-  return postcss([plugin])
-    .process('a{}')
-    .catch(error => {
-      if (error.name !== 'CssSyntaxError') throw error
-      expect(error.plugin).toEqual('test-plugin')
-      expect(error.toString()).toMatch(/test-plugin/)
-    })
+  let error = await catchError(() =>
+    postcss([plugin]).process('a{}', { from: undefined })
+  )
+  is(error.plugin, 'test-plugin')
+  match(error.toString(), /test-plugin/)
 })
 
-it('set plugin automatically in async', () => {
+test('set plugin automatically in async', async () => {
   let plugin: Plugin = {
-    postcssPlugin: 'async-plugin',
-    Once (css) {
+    Once(css) {
       return new Promise((resolve, reject) => {
         if (css.first) {
           reject(css.first.error('Error'))
         }
       })
-    }
+    },
+    postcssPlugin: 'async-plugin'
   }
 
-  return postcss([plugin])
-    .process('a{}')
-    .catch(error => {
-      if (error.name !== 'CssSyntaxError') throw error
-      expect(error.plugin).toEqual('async-plugin')
-    })
+  let error = await catchError(() =>
+    postcss([plugin]).process('a{}', { from: undefined })
+  )
+  is(error.plugin, 'async-plugin')
 })
+
+test.run()

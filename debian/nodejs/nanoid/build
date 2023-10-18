@@ -1,0 +1,3 @@
+for f in index.js async/index.js non-secure/index.js; do
+	mjs2cjs -o ${f%.js}.cjs $f
+done

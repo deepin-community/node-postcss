@@ -1,0 +1,6 @@
+# Test data
+source-is-missing [*source-map-js/test/test-source-node.js*]
+source-contains-prebuilt-javascript-object [*source-map-js/test/test-source-node.js*]
+
+# Noise
+very-long-line-length-in-source-file *.md*

@@ -1,0 +1,34 @@
+{
+  "name": "nanodelay",
+  "version": "1.0.8",
+  "description": "A tiny (25 bytes) Promise wrapper around setTimeout",
+  "keywords": [
+    "promise",
+    "delay",
+    "settimeout",
+    "setTimeout",
+    "wait",
+    "async",
+    "await",
+    "esm"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "repository": "ai/nanodelay",
+  "sideEffects": false,
+  "types": "./index.d.ts",
+  "type": "module",
+  "main": "index.cjs",
+  "module": "index.js",
+  "react-native": "index.js",
+  "exports": {
+    ".": {
+      "require": "./index.cjs",
+      "import": "./index.js",
+      "default": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./index.d.ts": "./index.d.ts"
+  }
+}

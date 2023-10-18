@@ -14,6 +14,24 @@ See also [ClojureWerkz’s recommendations] for open source projects.
 [`gulp‑postcss`]:      https://github.com/w0rm/gulp-postcss
 [`postcss-cli`]:       https://github.com/postcss/postcss-cli
 
+**Table of Contents**
+
+* [API](#1-api)
+  * [1.1. Accept functions in plugin parameters](#11-accept-functions-in-plugin-parameters)
+* [Processing](#21-set-from-and-to-processing-options)
+  * [2.1. Set `from` and `to` processing options](#21-set-from-and-to-processing-options)
+  * [2.2. Use only the asynchronous API](#22-use-only-the-asynchronous-api)
+  * [2.3. Use only the public PostCSS API](#23-use-only-the-public-postcss-api)
+  * [3.1. Rebuild when dependencies change](#31-rebuild-when-dependencies-change)
+* [Output](#4-output)
+  * [4.1. Don’t show JS stack for `CssSyntaxError`](#41-dont-show-js-stack-for-csssyntaxerror)
+  * [4.2. Display `result.warnings()`](#42-display-resultwarnings)
+  * [4.3. Allow the user to write source maps to different files](#43-allow-the-user-to-write-source-maps-to-different-files)
+* [Documentation](#5-output)
+  * [5.1. Document your runner in English](#51-document-your-runner-in-english)
+  * [5.2. Maintain a changelog](#52-maintain-a-changelog)
+  * [5.3. `postcss-runner` keyword in `package.json`](#53-postcss-runner-keyword-in-packagejson)
+  * [5.4. Keep postcss to peerDependencies](#54-keep-postcss-to-peerdependencies)
 
 ## 1. API
 
@@ -71,9 +89,36 @@ is described in [API docs].
 [API docs]: https://postcss.org/api/
 
 
-## 3. Output
+## 3. Dependencies
 
-### 3.1. Don’t show JS stack for `CssSyntaxError`
+### 3.1. Rebuild when dependencies change
+
+PostCSS plugins may declare file or directory dependencies by attaching
+messages to the `result`. Runners should watch these and ensure that the
+CSS is rebuilt when they change.
+
+```js
+for (let message of result.messages) {
+  if (message.type === 'dependency') {
+    watcher.addFile(message.file)
+  } else if (message.type === 'dir-dependency' && message.glob) {
+    watcher.addPattern(file.join(message.dir, message.glob))
+  } else if (message.type === 'dir-dependency') {
+    watcher.addPattern(file.join(message.dir, '**', '*'))
+  }
+}
+```
+
+Directories should be watched recursively by default, but `dir-dependency`
+messages may contain an optional `glob` property indicating which files
+within the directory are depended on (e.g. `**/*.css`). If `glob` is
+specified then runners should only watch files matching the glob pattern,
+where possible.
+
+
+## 4. Output
+
+### 4.1. Don’t show JS stack for `CssSyntaxError`
 
 PostCSS runners must not show a stack trace for CSS syntax errors,
 as the runner can be used by developers who are not familiar with JavaScript.
@@ -90,7 +135,7 @@ processor.process(opts).catch(error => {
 ```
 
 
-### 3.2. Display `result.warnings()`
+### 4.2. Display `result.warnings()`
 
 PostCSS runners must output warnings from `result.warnings()`:
 
@@ -106,7 +151,7 @@ See also [postcss-log-warnings] and [postcss-messages] plugins.
 [postcss-messages]:     https://github.com/postcss/postcss-messages
 
 
-### 3.3. Allow the user to write source maps to different files
+### 4.3. Allow the user to write source maps to different files
 
 PostCSS by default will inline source maps in the generated file; however,
 PostCSS runners must provide an option to save the source map in a different
@@ -119,18 +164,18 @@ if (result.map) {
 ```
 
 
-## 4. Documentation
+## 5. Documentation
 
-### 4.1. Document your runner in English
+### 5.1. Document your runner in English
 
-PostCSS runners must have their `README.md` wrote in English. Do not be afraid
+PostCSS runners must have their `README.md` written in English. Do not be afraid
 of your English skills, as the open source community will fix your errors.
 
 Of course, you are welcome to write documentation in other languages;
 just name them appropriately (e.g. `README.ja.md`).
 
 
-### 4.2. Maintain a changelog
+### 5.2. Maintain a changelog
 
 PostCSS runners must describe changes of all releases in a separate file,
 such as `ChangeLog.md`, `History.md`, or with [GitHub Releases].
@@ -143,7 +188,7 @@ Of course, you should use [SemVer].
 [SemVer]:           https://semver.org/
 
 
-### 4.3. `postcss-runner` keyword in `package.json`
+### 5.3. `postcss-runner` keyword in `package.json`
 
 PostCSS runners written for npm must have the `postcss-runner` keyword
 in their `package.json`. This special keyword will be useful for feedback about
@@ -153,7 +198,7 @@ For packages not published to npm, this is not mandatory, but recommended
 if the package format is allowed to contain keywords.
 
 
-### 4.4. Keep `postcss` to `peerDependencies`
+### 5.4. Keep `postcss` to `peerDependencies`
 
 AST can be broken because of different `postcss` version in different plugins.
 Different plugins could use a different node creators (like `postcss.decl()`).

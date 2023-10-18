@@ -12,6 +12,20 @@ There are 3 types of PostCSS syntax packages:
 * **Stringifier** to generate output string by node’s tree.
 * **Syntax** contains both parser and stringifier.
 
+**Table of Contents**
+
+* [Syntax](#syntax)
+* [Parser](#parser)
+  * [Main Theory](#main-theory)
+  * [Performance](#performance)
+  * [Node Source](#node-source)
+  * [Raw Values](#raw-values)
+  * [Tests](#tests)
+* [Stringifier](#stringifier)
+  * [Main Theory](#main-theory-1)
+  * [Builder Function](#builder-function)
+  * [Raw Values](#raw-values-1)
+  * [Tests](#tests-1)
 
 ## Syntax
 
@@ -39,8 +53,9 @@ A good example of a parser is [Safe Parser], which parses malformed/broken CSS.
 Because there is no point to generate broken output, this package only provides
 a parser.
 
-The parser API is a function which receives a string & returns a [`Root`] node.
-The second argument is a function which receives an object with PostCSS options.
+The parser API is a function which receives a string & returns a [`Root`]
+or [`Document`] node. The second argument is a function which receives
+an object with PostCSS options.
 
 ```js
 const postcss = require('postcss')
@@ -52,8 +67,12 @@ module.exports = function parse (css, opts) {
 }
 ```
 
+For open source parser npm package must have `postcss` in `peerDependencies`,
+not in direct `dependencies`.
+
 [Safe Parser]: https://github.com/postcss/postcss-safe-parser
 [`Root`]:      https://postcss.org/api/#root
+[`Document`]:  https://postcss.org/api/#document
 
 
 ### Main Theory
@@ -170,7 +189,7 @@ The Stringifier API is little bit more complicated, than the parser API.
 PostCSS generates a source map, so a stringifier can’t just return a string.
 It must link every substring with its source node.
 
-A Stringifier is a function which receives [`Root`] node and builder callback.
+A Stringifier is a function which receives [`Root`] or [`Document`] node and builder callback.
 Then it calls builder with every node’s string and node instance.
 
 ```js

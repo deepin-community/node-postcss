@@ -1,54 +1,70 @@
 #!/usr/bin/env node
 
-let { v4: uuid4 } = require('uuid')
-let benchmark = require('benchmark')
-let { bold } = require('colorette')
-let shortid = require('shortid')
-let cuid = require('cuid')
-let rndm = require('rndm')
-let srs = require('secure-random-string')
-let uid = require('uid-safe')
+import { uid as uidSecure } from 'uid/secure'
+import { v4 as lukeed4 } from '@lukeed/uuid'
+import { v4 as napiV4 } from '@napi-rs/uuid'
+import { v4 as uuid4 } from 'uuid'
+import benchmark from 'benchmark'
+import shortid from 'shortid'
+import uidSafe from 'uid-safe'
+import { uid } from 'uid'
+import crypto from 'crypto'
+import pico from 'picocolors'
+import rndm from 'rndm'
+import srs from 'secure-random-string'
 
-let { nanoid: aNanoid, customAlphabet: aCustomAlphabet } = require('../async')
-let { nanoid, customAlphabet } = require('../')
-let { nanoid: nonSecure } = require('../non-secure')
+import {
+  customAlphabet as aCustomAlphabet,
+  nanoid as aNanoid
+} from '../async/index.js'
+import { nanoid, customAlphabet } from '../index.js'
+import { nanoid as nonSecure } from '../non-secure/index.js'
 
 let suite = new benchmark.Suite()
 
 let nanoid2 = customAlphabet('1234567890abcdef-', 10)
 let asyncNanoid2 = aCustomAlphabet('1234567890abcdef-', 10)
 
-function formatNumber (number) {
+function formatNumber(number) {
   return String(number)
     .replace(/\d{3}$/, ',$&')
-    .replace(/^(\d)(\d{3})/, '$1,$2')
+    .replace(/^(\d|\d\d)(\d{3},)/, '$1,$2')
 }
 
 suite
+  .add('crypto.randomUUID', () => {
+    crypto.randomUUID()
+  })
+  .add('uuid v4', () => {
+    uuid4()
+  })
+  .add('@napi-rs/uuid', () => {
+    napiV4()
+  })
+  .add('uid/secure', () => {
+    uidSecure(32)
+  })
+  .add('@lukeed/uuid', () => {
+    lukeed4()
+  })
   .add('nanoid', () => {
     nanoid()
   })
   .add('customAlphabet', () => {
     nanoid2()
   })
-  .add('uuid v4', () => {
-    uuid4()
-  })
-  .add('uid.sync', () => {
-    uid.sync(14)
-  })
   .add('secure-random-string', () => {
     srs()
   })
-  .add('cuid', () => {
-    cuid()
+  .add('uid-safe.sync', () => {
+    uidSafe.sync(14)
   })
   .add('shortid', () => {
     shortid()
   })
-  .add('async nanoid', {
+  .add('nanoid/async', {
     defer: true,
-    fn (defer) {
+    fn(defer) {
       aNanoid().then(() => {
         defer.resolve()
       })
@@ -56,7 +72,7 @@ suite
   })
   .add('async customAlphabet', {
     defer: true,
-    fn (defer) {
+    fn(defer) {
       asyncNanoid2().then(() => {
         defer.resolve()
       })
@@ -64,21 +80,24 @@ suite
   })
   .add('async secure-random-string', {
     defer: true,
-    fn (defer) {
+    fn(defer) {
       srs(() => {
         defer.resolve()
       })
     }
   })
-  .add('uid', {
+  .add('uid-safe', {
     defer: true,
-    fn (defer) {
-      uid(14).then(() => {
+    fn(defer) {
+      uidSafe(14).then(() => {
         defer.resolve()
       })
     }
   })
-  .add('non-secure nanoid', () => {
+  .add('uid', () => {
+    uid(32)
+  })
+  .add('nanoid/non-secure', () => {
     nonSecure()
   })
   .add('rndm', () => {
@@ -86,12 +105,12 @@ suite
   })
   .on('cycle', event => {
     let name = event.target.name.padEnd('async secure-random-string'.length)
-    let hz = formatNumber(event.target.hz.toFixed(0)).padStart(9)
-    if (event.target.name === 'async nanoid') {
+    let hz = formatNumber(event.target.hz.toFixed(0)).padStart(10)
+    if (event.target.name === 'nanoid/async') {
       name = '\nAsync:\n' + name
-    } else if (event.target.name === 'non-secure nanoid') {
+    } else if (event.target.name === 'uid') {
       name = '\nNon-secure:\n' + name
     }
-    process.stdout.write(`${name}${bold(hz)} ops/sec\n`)
+    process.stdout.write(`${name}${pico.bold(hz)}${pico.dim(' ops/sec')}\n`)
   })
   .run()

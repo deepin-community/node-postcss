@@ -1,6 +1,6 @@
 {
   "name": "postcss",
-  "version": "8.2.1",
+  "version": "8.4.31",
   "description": "Tool for transforming styles with JS plugins",
   "engines": {
     "node": "^10 || ^12 || >=14"
@@ -8,10 +8,36 @@
   "exports": {
     ".": {
       "require": "./lib/postcss.js",
-      "import": "./lib/postcss.mjs",
-      "types": "./lib/postcss.d.ts"
+      "import": "./lib/postcss.mjs"
     },
-    "./": "./"
+    "./lib/at-rule": "./lib/at-rule.js",
+    "./lib/comment": "./lib/comment.js",
+    "./lib/container": "./lib/container.js",
+    "./lib/css-syntax-error": "./lib/css-syntax-error.js",
+    "./lib/declaration": "./lib/declaration.js",
+    "./lib/fromJSON": "./lib/fromJSON.js",
+    "./lib/input": "./lib/input.js",
+    "./lib/lazy-result": "./lib/lazy-result.js",
+    "./lib/no-work-result": "./lib/no-work-result.js",
+    "./lib/list": "./lib/list.js",
+    "./lib/map-generator": "./lib/map-generator.js",
+    "./lib/node": "./lib/node.js",
+    "./lib/parse": "./lib/parse.js",
+    "./lib/parser": "./lib/parser.js",
+    "./lib/postcss": "./lib/postcss.js",
+    "./lib/previous-map": "./lib/previous-map.js",
+    "./lib/processor": "./lib/processor.js",
+    "./lib/result": "./lib/result.js",
+    "./lib/root": "./lib/root.js",
+    "./lib/rule": "./lib/rule.js",
+    "./lib/stringifier": "./lib/stringifier.js",
+    "./lib/stringify": "./lib/stringify.js",
+    "./lib/symbols": "./lib/symbols.js",
+    "./lib/terminal-highlight": "./lib/terminal-highlight.js",
+    "./lib/tokenize": "./lib/tokenize.js",
+    "./lib/warn-once": "./lib/warn-once.js",
+    "./lib/warning": "./lib/warning.js",
+    "./package.json": "./package.json"
   },
   "main": "./lib/postcss.js",
   "types": "./lib/postcss.d.ts",
@@ -27,259 +53,137 @@
     "transpiler"
   ],
   "scripts": {
-    "test": "jest --coverage && eslint . && ./test/version.js && check-dts && ./test/integration.js && yaspeller *.md docs/{**/,}*.md && size-limit"
+    "test:types": "check-dts",
+    "test:version": "node ./test/version.js",
+    "test:coverage": "c8 pnpm unit",
+    "test:integration": "node ./test/integration.js",
+    "test:size": "size-limit",
+    "test": "FORCE_COLOR=1 pnpm run /^test:/",
+    "unit": "uvu -r ts-node/register/transpile-only test \"\\.test\\.(ts|js)$\"",
+    "old": "uvu -r ../../../../../../../test/old-node.js -r ts-node/register/transpile-only test \"\\.test\\.(ts|js)$\""
   },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/postcss/"
-  },
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/postcss/"
+    },
+    {
+      "type": "tidelift",
+      "url": "https://tidelift.com/funding/github/npm/postcss"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ai"
+    }
+  ],
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
   "homepage": "https://postcss.org/",
   "repository": "postcss/postcss",
+  "bugs": {
+    "url": "https://github.com/postcss/postcss/issues"
+  },
   "dependencies": {
-    "colorette": "^1.2.1",
-    "nanoid": "^3.1.20",
-    "source-map": "^0.6.1"
+    "nanoid": "^3.3.6",
+    "picocolors": "^1.0.0",
+    "source-map-js": "^1.0.2"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^42.3.0",
-    "@size-limit/preset-small-lib": "^4.9.1",
-    "@types/fs-extra": "^9.0.4",
-    "@types/jest": "^26.0.18",
-    "@types/node": "^14.14.11",
-    "@typescript-eslint/eslint-plugin": "^4.9.1",
-    "@typescript-eslint/parser": "^4.9.1",
-    "check-dts": "^0.4.1",
-    "ci-job-number": "^1.2.2",
-    "clean-publish": "^1.1.8",
+    "@logux/eslint-config": "^52.0.1",
+    "@size-limit/preset-small-lib": "^9.0.0",
+    "@types/node": "^20.7.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "c8": "^8.0.1",
+    "check-dts": "^0.7.2",
+    "clean-publish": "^4.2.0",
     "concat-with-sourcemaps": "^1.1.0",
-    "documentation": "^13.1.0",
-    "documentation-theme-light": "^1.1.1",
-    "eslint": "^7.15.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.1.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-let": "^1.1.0",
-    "eslint-plugin-prettierx": "^0.14.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-unicorn": "^23.0.0",
-    "fs-extra": "^9.0.1",
-    "husky": "^4.3.5",
-    "jest": "^26.6.3",
-    "lint-staged": "^10.5.3",
-    "nanodelay": "^1.0.6",
-    "postcss-parser-tests": "^8.3.5",
-    "size-limit": "^4.9.1",
-    "strip-ansi": "^6.0.0",
-    "ts-jest": "^26.4.4",
-    "typescript": "^4.1.2",
-    "yaspeller": "^7.0.0"
+    "eslint": "^8.50.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-perfectionist": "^2.1.0",
+    "eslint-plugin-prefer-let": "^3.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "nanodelay": "^1.0.8",
+    "nanospy": "^1.0.0",
+    "postcss-parser-tests": "^8.8.0",
+    "simple-git-hooks": "^2.9.0",
+    "size-limit": "^9.0.0",
+    "strip-ansi": "^6.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "uvu": "^0.5.6"
   },
-  "lint-staged": {
-    "*.md": "yaspeller",
-    "*.js": "eslint --fix",
-    "*.ts": "eslint --fix",
-    "package.json": "./test/version.js"
+  "c8": {
+    "exclude": [
+      "**/*.test.*",
+      "lib/map-generator.js"
+    ],
+    "lines": 100,
+    "reporter": "lcov",
+    "check-coverage": true
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "simple-git-hooks": {
+    "pre-commit": "./test/version.js"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "jsxSingleQuote": false,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   },
   "browser": {
     "./lib/terminal-highlight": false,
-    "colorette": false,
+    "source-map-js": false,
+    "path": false,
+    "url": false,
     "fs": false
   },
   "size-limit": [
     {
       "path": "lib/postcss.js",
-      "limit": "33 KB"
+      "limit": "17 KB"
     }
   ],
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "coverageThreshold": {
-      "global": {
-        "statements": 100
-      }
-    }
-  },
   "eslintConfig": {
     "extends": "@logux/eslint-config/ts",
     "rules": {
+      "@typescript-eslint/consistent-type-imports": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "node-import/prefer-node-protocol": "off",
       "consistent-return": "off",
       "global-require": "off"
     },
     "overrides": [
       {
         "files": [
-          "*.test.js"
+          "*.d.ts"
         ],
         "rules": {
-          "no-unused-expressions": "off",
-          "func-style": "off"
+          "@typescript-eslint/no-redeclare": "off"
         }
       },
       {
         "files": [
-          "*.test.ts"
+          "*.test.*"
         ],
         "rules": {
           "@typescript-eslint/no-unused-expressions": "off",
+          "no-unused-expressions": "off",
+          "no-console": "off",
           "func-style": "off"
         }
       }
     ]
   },
   "eslintIgnore": [
-    "docs/api/assets/"
+    "docs/api/assets/",
+    "errors.ts"
   ],
-  "yaspeller": {
-    "lang": "en",
-    "ignoreCapitalization": true,
-    "excludeFiles": [
-      "docs/README-cn.md"
-    ],
-    "ignoreText": [
-      " \\(by [^)]+\\).",
-      "“[^”]+”"
-    ],
-    "dictionary": [
-      "6to5",
-      "A CI",
-      "Andalusian",
-      "ASE",
-      "autodetect",
-      "Autodetect",
-      "Autoprefixer",
-      "base64",
-      "Base64",
-      "BEM",
-      "Browserhacks",
-      "Browserify  or",
-      "Browserslist",
-      "CamelCase",
-      "changelog",
-      "Changelog",
-      "ClojureWerkz’s",
-      "CodePen",
-      "CoffeeScript",
-      "configs",
-      "CSS3",
-      "CSS4",
-      "cssnano",
-      "CSSWG",
-      "ENB",
-      "ES5",
-      "ES6",
-      "evilmartians",
-      "extendability",
-      "findable",
-      "Flexbox",
-      "flexbox",
-      "GitHub",
-      "GitLab",
-      "Gitter",
-      "IE8",
-      "IE9",
-      "inlined",
-      "inlines",
-      "Instagram",
-      "iOS",
-      "is  SCSS",
-      "isolatable",
-      "Jeet",
-      "JetBrains",
-      "JS",
-      "js",
-      "JSDoc",
-      "JSS",
-      "keyframes",
-      "Less’s",
-      "Libby",
-      "linter",
-      "Linters",
-      "Lolspeak",
-      "LTR",
-      "LTS",
-      "maintainers",
-      "Markdown",
-      "MD5",
-      "minifier",
-      "mixin",
-      "mixins",
-      "Modernizr",
-      "multitool",
-      "npm",
-      "Packt",
-      "pantone",
-      "params",
-      "partials",
-      "polyfill",
-      "polyfills",
-      "Polyfills",
-      "PostCSS",
-      "postcss",
-      "PostCSS’s",
-      "rebases",
-      "regexp",
-      "replaces EOL",
-      "resolver",
-      "Rollup",
-      "RTL",
-      "RTLCSS",
-      "sanitization",
-      "Sass",
-      "SCSS",
-      "SemVer",
-      "Sharec",
-      "stringifier",
-      "Stringifier",
-      "stringifing",
-      "Stylelint",
-      "stylesheet",
-      "stylesheets",
-      "SugarSS",
-      "SVG",
-      "SVGO",
-      "SVGs",
-      "Taskr",
-      "Tidelift",
-      "tokenization",
-      "Tokenization",
-      "tokenize",
-      "tokenizer",
-      "Tokenizer",
-      "Traceur",
-      "transpile",
-      "Transpiler",
-      "transpiler",
-      "transpiles",
-      "transpiling",
-      "Travis",
-      "UI",
-      "unmaintained",
-      "Unprefixes",
-      "unprefixes",
-      "Versioning",
-      "VK",
-      "VS",
-      "Vue",
-      "W3C",
-      "WebP",
-      "webpack",
-      "Webpack",
-      "WebStorm",
-      "YIQ",
-      "TypeDoc",
-      "ES",
-      "Deno"
-    ]
+  "clean-publish": {
+    "cleanDocs": true
   }
 }

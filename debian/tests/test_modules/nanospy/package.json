@@ -1,0 +1,23 @@
+{
+  "name": "nanospy",
+  "version": "1.0.0",
+  "description": "Spy and mock methods in tests with great TypeScript support",
+  "keywords": [
+    "spy",
+    "mock",
+    "typescript",
+    "method"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "repository": "ai/nanospy",
+  "sideEffects": false,
+  "engines": {
+    "node": "^8.0.0 || ^10.0.0 || ^12.0.0 || ^14.0.0 || ^16.0.0 || ^18.0.0 || >=20.0.0"
+  },
+  "types": "./index.d.ts",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  }
+}

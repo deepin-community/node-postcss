@@ -1,6 +1,209 @@
 # Change Log
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.4.31
+* Fixed `\r` parsing to fix CVE-2023-44270.
+
+## 8.4.30
+* Improved source map performance (by Romain Menke).
+
+## 8.4.29
+* Fixed `Node#source.offset` (by Ido Rosenthal).
+* Fixed docs (by Christian Oliff).
+
+## 8.4.28
+* Fixed `Root.source.end` for better source map (by Romain Menke).
+* Fixed `Result.root` types when `process()` has no parser.
+
+## 8.4.27
+* Fixed `Container` clone methods types.
+
+## 8.4.26
+* Fixed clone methods types.
+
+## 8.4.25
+* Improve stringify performance (by Romain Menke).
+* Fixed docs (by @vikaskaliramna07).
+
+## 8.4.24
+* Fixed `Plugin` types.
+
+## 8.4.23
+* Fixed warnings in TypeDoc.
+
+## 8.4.22
+* Fixed TypeScript support with `node16` (by Remco Haszing).
+
+## 8.4.21
+* Fixed `Input#error` types (by Aleks Hudochenkov).
+
+## 8.4.20
+* Fixed source map generation for childless at-rules like `@layer`.
+
+## 8.4.19
+* Fixed whitespace preserving after AST transformations (by Romain Menke).
+
+## 8.4.18
+* Fixed an error on `absolute: true` with empty `sourceContent` (by Rene Haas).
+
+## 8.4.17
+* Fixed `Node.before()` unexpected behavior (by Romain Menke).
+* Added TOC to docs (by Mikhail Dedov).
+
+## 8.4.16
+* Fixed `Root` AST migration.
+
+## 8.4.15
+* Fixed AST normalization after using custom parser with old PostCSS AST.
+
+## 8.4.14
+* Print “old plugin API” warning only if plugin was used (by @zardoy).
+
+## 8.4.13
+* Fixed `append()` error after using `.parent` (by Jordan Pittman).
+
+## 8.4.12
+* Fixed `package.funding` to have same value between all PostCSS packages.
+
+## 8.4.11
+* Fixed `Declaration#raws.value` type.
+
+## 8.4.10
+* Fixed `package.funding` URL format.
+
+## 8.4.9
+* Fixed `package.funding` (by Álvaro Mondéjar).
+
+## 8.4.8
+* Fixed end position in empty Custom Properties.
+
+## 8.4.7
+* Fixed `Node#warn()` type (by Masafumi Koba).
+* Fixed comment removal in values after `,`.
+
+## 8.4.6
+* Prevented comment removing when it change meaning of CSS.
+* Fixed parsing space in last semicolon-less CSS Custom Properties.
+* Fixed comment cleaning in CSS Custom Properties with space.
+* Fixed throwing an error on `.root` access for plugin-less case.
+
+## 8.4.5
+* Fixed `raws` types to make object extendable (by James Garbutt).
+* Moved from Yarn 1 to pnpm.
+
+## 8.4.4
+* Fixed absolute path in source map on zero plugins mode.
+
+## 8.4.3
+* Fixed `this.css.replace is not a function` error.
+
+## 8.4.2
+* Fixed previous source map support in zero plugins mode.
+
+## 8.4.1
+* Fixed `Stringifier` types (by James Garbutt).
+
+## 8.4 “President Camio”
+* Added ranges for errors and warnings (by Adaline Valentina Simonian).
+* Added `Stringifier` types (by James Garbutt).
+* Added `Processor` types.
+* Removed `PostCSS does nothing` warning by lazy parser (Bogdan Dolin).
+* Fixed `Node#walkRules()` types (by Aleks Hudochenkov).
+* Fixed types `Root` and `Document` in result values (by James Garbutt).
+* Reduced npm install size by 0.5 MB.
+* Moved tests from Jest to `uvu` (by Andrey Kim).
+* Fixed docs (by Paul Shryock).
+
+## 8.3.11
+* Remove debugging code.
+
+## 8.3.10
+* Fixed `Maximum call stack` issue of some source maps (by Yeting Li).
+
+## 8.3.9
+* Replaced `nanocolors` to `picocolors`.
+* Reduced package size.
+
+## 8.3.8
+* Update `nanocolors`.
+
+## 8.3.7
+* Replaced `colorette` to `nanocolors`.
+* Added bug field to `package.json` (by Christian Oliff).
+* Improved docs (by Andrew Bruce and Paul Shryock).
+
+## 8.3.6
+* Fixed column in `missed semicolon` error (by @Gusted).
+
+## 8.3.5
+* Fixed broken AST detection.
+
+## 8.3.4
+* Fixed broken AST detection.
+
+## 8.3.3
+* Fixed broken AST on `postcss` dependency duplication in custom parsers.
+
+## 8.3.2
+* Update changelog.
+
+## 8.3.1
+* Fixed false positives `PostCSS does nothing` warning on `syntax` option.
+
+## 8.3 “Duke Murmur”
+* Added `Node#assign()` shortcut (by Jonathan Neal).
+* Added experimental `Document` node to AST (by Aleks Hudochenkov).
+* Moved to faster fork of `source-map` (by Valentin Semirulnik).
+
+## 8.2.15
+* Fixed `list` type definitions (by @n19htz).
+
+## 8.2.14
+* Removed `source-map` from client-side bundle (by Barak Igal).
+
+## 8.2.13
+* Fixed ReDoS vulnerabilities in source map parsing (by Yeting Li).
+
+## 8.2.12
+* Fixed `package.json` exports.
+
+## 8.2.11
+* Fixed `DEP0148` warning in Node.js 16.
+* Fixed docs (by @semiromid).
+
+## 8.2.10
+* Fixed ReDoS vulnerabilities in source map parsing.
+* Fixed webpack 5 support (by Barak Igal).
+* Fixed docs (by Roeland Moors).
+
+## 8.2.9
+* Exported `NodeErrorOptions` type (by Rouven Weßling).
+
+## 8.2.8
+* Fixed browser builds in webpack 4 (by Matt Jones).
+
+## 8.2.7
+* Fixed browser builds in webpack 5 (by Matt Jones).
+
+## 8.2.6
+* Fixed `Maximum call stack size exceeded` in `Node#toJSON`.
+* Fixed docs (by inokawa).
+
+## 8.2.5
+* Fixed escaped characters handling in `list.split` (by Natalie Weizenbaum).
+
+## 8.2.4
+* Added plugin name to `postcss.plugin()` warning (by Tom Williams).
+* Fixed docs (by Bill Columbia).
+
+## 8.2.3
+* Fixed `JSON.stringify(Node[])` support (by Niklas Mischkulnig).
+
+## 8.2.2
+* Fixed CSS-in-JS support (by James Garbutt).
+* Fixed plugin types (by Ludovico Fischer).
+* Fixed `Result#warn()` types.
+
 ## 8.2.1
 * Fixed `Node#toJSON()` and `postcss.fromJSON()` (by Niklas Mischkulnig).
 
@@ -119,6 +322,15 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 * Removed Babel from the project’s release process.
 * Removed docs from npm package.
 * Replaced `chalk` to `colorette`.
+
+## 7.0.38
+* Update `Processor#version`.
+
+## 7.0.37
+* Backport `chalk` to `nanocolors` migration.
+
+## 7.0.36
+* Backport ReDoS vulnerabilities from PostCSS 8.
 
 ## 7.0.35
 * Add migration guide link to PostCSS 8 error text.

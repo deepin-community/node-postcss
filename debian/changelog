@@ -1,3 +1,135 @@
+node-postcss (8.4.31+~cs8.0.26-1) unstable; urgency=medium
+
+  * Team upload
+  * Update standards version to 4.6.2, no changes needed.
+  * New upstream version 8.4.31+~cs8.0.26 (Closes: #1053282, CVE-2023-44270)
+  * Unfuzz patch
+
+ -- Yadd <yadd@debian.org>  Tue, 17 Oct 2023 18:47:34 +0400
+
+node-postcss (8.4.20+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * Update lintian override info format in d/source/lintian-overrides
+    on line 2-3.
+  * New upstream version 8.4.20+~cs8.0.23
+
+ -- Yadd <yadd@debian.org>  Mon, 12 Dec 2022 17:48:49 +0100
+
+node-postcss (8.4.19+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.19+~cs8.0.23
+
+ -- Yadd <yadd@debian.org>  Tue, 22 Nov 2022 09:03:06 +0100
+
+node-postcss (8.4.18+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.18+~cs8.0.23
+
+ -- Yadd <yadd@debian.org>  Tue, 01 Nov 2022 15:30:59 +0100
+
+node-postcss (8.4.17+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.17+~cs8.0.23
+
+ -- Yadd <yadd@debian.org>  Sat, 01 Oct 2022 09:02:33 +0200
+
+node-postcss (8.4.16+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.16+~cs8.0.23
+  * Unfuzz patches
+
+ -- Yadd <yadd@debian.org>  Tue, 09 Aug 2022 22:11:24 +0200
+
+node-postcss (8.4.14+~cs8.0.23-1) unstable; urgency=medium
+
+  * Team upload
+  * Declare compliance with policy 4.6.1
+  * lintian
+  * New upstream version 8.4.14+~cs8.0.23
+  * Build nanoid commonjs files
+
+ -- Yadd <yadd@debian.org>  Mon, 04 Jul 2022 11:19:49 +0200
+
+node-postcss (8.4.8+~cs7.3.21-2) unstable; urgency=medium
+
+  * Team upload
+  * Update test modules (fixes debci)
+
+ -- Yadd <yadd@debian.org>  Thu, 10 Mar 2022 15:33:31 +0100
+
+node-postcss (8.4.8+~cs7.3.21-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.8+~cs7.3.21
+
+ -- Yadd <yadd@debian.org>  Thu, 10 Mar 2022 10:10:43 +0100
+
+node-postcss (8.4.7+~cs7.3.21-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.7+~cs7.3.21
+
+ -- Yadd <yadd@debian.org>  Fri, 25 Feb 2022 16:10:09 +0100
+
+node-postcss (8.4.6+~cs7.3.21-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 8.4.6+~cs7.3.21
+  * Enable upstream test (uvu and ts-node)
+  * Add X-Javascript-Built-Using header in debian/control
+  * Update copyright
+
+ -- Yadd <yadd@debian.org>  Thu, 17 Feb 2022 17:39:30 +0100
+
+node-postcss (8.4.5+~cs7.1.51-2) unstable; urgency=medium
+
+  * Team upload
+  * Don't launch upstream test, requires Internet (Closes: #1003702)
+
+ -- Yadd <yadd@debian.org>  Fri, 14 Jan 2022 06:37:28 +0100
+
+node-postcss (8.4.5+~cs7.1.51-1) unstable; urgency=medium
+
+  * Team upload
+  * Skip require test for colorette (fixes autopkgtest)
+  * New upstream version 8.4.5+~cs7.1.51
+  * Install nanoid binary
+  * Update lintian overrides
+
+ -- Yadd <yadd@debian.org>  Thu, 13 Jan 2022 12:35:56 +0100
+
+node-postcss (8.4.5+~cs7.1.49-2) unstable; urgency=medium
+
+  * Team upload
+  * Add debian/nodejs/colorette/files to workaround pkg-js-tools bug
+
+ -- Yadd <yadd@debian.org>  Wed, 15 Dec 2021 13:55:33 +0100
+
+node-postcss (8.4.5+~cs7.1.49-1) unstable; urgency=medium
+
+  * Team upload
+  * Bump debhelper compatibility level to 13
+  * Fix GitHub tags regex
+  * Fix filenamemangle
+  * Use dh-sequence-nodejs
+  * Update standards version to 4.6.0, no changes needed.
+  * Drop dependency to nodejs
+  * Embed source-map-js
+  * New upstream version 8.4.5+~cs7.1.49
+  * Drop patches
+  * Update colorette build (rollup)
+  * Add lintian overrides
+  * Update build dependencies
+  * Update copyright
+  * Update test
+
+ -- Yadd <yadd@debian.org>  Wed, 15 Dec 2021 13:31:06 +0100
+
 node-postcss (8.2.1+~cs5.3.23-8) unstable; urgency=medium
 
   * Team upload

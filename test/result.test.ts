@@ -1,64 +1,70 @@
-import postcss, { Warning, Result, Root, Plugin } from '../lib/postcss.js'
+import { test } from 'uvu'
+import { equal, is } from 'uvu/assert'
+
+import postcss, { Plugin, Result, Root, Warning } from '../lib/postcss.js'
 import Processor from '../lib/processor.js'
 
 let processor = new Processor()
 let root = new Root()
 
-it('stringifies', () => {
+test('stringifies', () => {
   let result = new Result(processor, root, {})
   result.css = 'a{}'
-  expect(`${result}`).toEqual(result.css)
+  is(`${result}`, result.css)
 })
 
-it('adds warning', () => {
+test('adds warning', () => {
   let warning
   let plugin: Plugin = {
-    postcssPlugin: 'test-plugin',
-    Once (css, { result }) {
+    Once(css, { result }) {
       warning = result.warn('test', { node: css.first })
-    }
+    },
+    postcssPlugin: 'test-plugin'
   }
   let result = postcss([plugin]).process('a{}').sync()
 
-  expect(warning).toEqual(
+  equal(
+    warning,
     new Warning('test', {
-      plugin: 'test-plugin',
-      node: result.root.first
+      node: result.root.first,
+      plugin: 'test-plugin'
     })
   )
 
-  expect(result.messages).toEqual([warning])
+  equal(result.messages, [warning])
 })
 
-it('allows to override plugin', () => {
+test('allows to override plugin', () => {
   let plugin: Plugin = {
-    postcssPlugin: 'test-plugin',
-    Once (css, { result }) {
+    Once(css, { result }) {
       result.warn('test', { plugin: 'test-plugin#one' })
-    }
+    },
+    postcssPlugin: 'test-plugin'
   }
   let result = postcss([plugin]).process('a{}').sync()
 
-  expect(result.messages[0].plugin).toEqual('test-plugin#one')
+  is(result.messages[0].plugin, 'test-plugin#one')
 })
 
-it('allows Root', () => {
+test('allows Root', () => {
   let css = postcss.parse('a{}')
   let result = new Result(processor, css, {})
   result.warn('TT', { node: css.first })
 
-  expect(result.messages[0].toString()).toEqual('<css input>:1:1: TT')
+  is(result.messages[0].toString(), '<css input>:1:1: TT')
 })
 
-it('returns only warnings', () => {
+test('returns only warnings', () => {
   let result = new Result(processor, root, {})
   result.messages = [
-    { type: 'warning', text: 'a' },
+    { text: 'a', type: 'warning' },
     { type: 'custom' },
-    { type: 'warning', text: 'b' }
+    { text: 'b', type: 'warning' }
   ]
-  expect(result.warnings()).toEqual([
-    { type: 'warning', text: 'a' },
-    { type: 'warning', text: 'b' }
+  equal(result.warnings(), [
+    { text: 'a', type: 'warning' },
+    { text: 'b', type: 'warning' }
   ])
 })
+
+test.run()
