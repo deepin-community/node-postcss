@@ -1,5 +1,15 @@
 # Writing a PostCSS Plugin
 
+**Table of Contents**
+
+* [Links](#links)
+* [Step 1: Create an idea](#step-1-create-an-idea)
+* [Step 2: Create a project](#step-2-create-a-project)
+* [Step 3: Find nodes](#step-3-find-nodes)
+* [Step 4: Change nodes](#step-4-change-nodes)
+* [Step 5: Fight with frustration](#step-5-fight-with-frustration)
+* [Step 6: Make it public](#step-6-make-it-public)
+
 ## Links
 
 Documentation:
@@ -11,7 +21,7 @@ Documentation:
 
 Support:
 
-* [Ask questions](https://gitter.im/postcss/postcss)
+* [Ask questions](https://github.com/orgs/postcss/discussions)
 * [PostCSS twitter](https://twitter.com/postcss) with latest updates.
 
 
@@ -80,10 +90,6 @@ For public plugins:
 2. Create a repository on GitHub or GitLab.
 3. Publish your code there.
 
-You can also use [our Sharec config] to keep the best practices up to date.
-Every time when you will update the config, it will update development configs
-and development tools.
-
 ```js
 module.exports = (opts = {}) => {
   // Plugin creator to check options or prepare caches
@@ -96,8 +102,7 @@ module.exports.postcss = true
 ```
 
 [PostCSS plugin boilerplate]: https://github.com/postcss/postcss-plugin-boilerplate/
-[our Sharec config]: https://github.com/postcss/postcss-sharec-config
-[plugin template]: https://github.com/postcss/postcss-plugin-boilerplate/blob/main/index.js
+[plugin template]: https://github.com/postcss/postcss-plugin-boilerplate/blob/main/template/index.t.js
 
 
 ## Step 3: Find nodes
@@ -317,9 +322,9 @@ Second argument also have `result` object to add warnings:
     }
 ```
 
-If your plugin load another file, you can use `result` to add message, that
-webpack/Gulp should add this file to a watching list
-(and rebuild CSS on file changes):
+If your plugin depends on another file, you can attach a message to `result`
+to signify to runners (webpack, Gulp etc.) that they should rebuild the CSS
+when this file changes:
 
 ```js
     AtRule: {
@@ -333,6 +338,18 @@ webpack/Gulp should add this file to a watching list
         })
       }
     }
+```
+
+If the dependency is a directory you should use the `dir-dependency`
+message type instead:
+
+```js
+result.messages.push({
+  type: 'dir-dependency',
+  plugin: 'postcss-import',
+  dir: importedDir,
+  parent: result.opts.from
+})
 ```
 
 If you find an syntax error (for instance, undefined custom property),
@@ -363,7 +380,8 @@ You will have bugs and a minimum of 10 minutes in debugging even a simple plugin
 You may found that simple origin idea will not work in real-world and you need
 to change everything.
 
-Don’t worry. Every bug is findable, and finding another solution may make your plugin even better.
+Don’t worry. Every bug is findable, and finding another solution may make your
+plugin even better.
 
 Start from writing tests. Plugin boilerplate has a test template
 in `index.test.js`. Call `npx jest` to test your plugin.
@@ -372,7 +390,7 @@ Use Node.js debugger in your text editor or just `console.log`
 to debug the code.
 
 PostCSS community can help you since we are all experiencing the same problems.
-Don’t afraid to ask in [special Gitter channel](https://gitter.im/postcss/).
+Don’t afraid to ask in [special channel](https://github.com/orgs/postcss/discussions).
 
 
 ## Step 6: Make it public
@@ -390,4 +408,3 @@ We will help you with marketing.
 [Add your new plugin]: https://github.com/himynameisdave/postcss-plugins#submitting-a-new-plugin
 [`clean-publish`]: https://github.com/shashkovdanil/clean-publish/
 [`@postcss`]: https://twitter.com/postcss
-[our chat]: https://gitter.im/postcss/

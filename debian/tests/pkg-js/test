@@ -1,2 +1,1 @@
-echo "Disable tests because ts-jest is not packaged"
-#jest --ci test
+uvu -r ts-node/register/transpile-only -i css-syntax-error test '\.test\.(ts|js)$'

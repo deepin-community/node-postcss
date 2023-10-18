@@ -1,29 +1,23 @@
-const Suite = require("benchmark").Suite
+import * as colorette from "../index.js"
 
-const runBenchmark = (test, modules) =>
-  Object.keys(modules)
-    .reduce(
-      (bench, id) => bench.add(id, test.bind({}, modules[id])),
-      new Suite().on("cycle", ({ target: { name, hz } }) =>
-        console.log(`${name} × ${Math.floor(hz).toLocaleString()} ops/sec`)
-      )
-    )
-    .run()
+import bench from "benchmark"
+import chalk from "chalk"
+import kleur from "kleur"
+import colors from "colors"
+import picocolors from "picocolors"
+import ansicolors from "ansi-colors"
 
-runBenchmark(
-  (c) =>
-    c.red(
-      `${"X"}${c.blue(
-        `${"X"}${c.bold(
-          `${"X"}${c.yellow("X")}${"X"}${c.underline("X")}`
-        )}${"X"}${c.magenta(`${"X"}${c.white("X")}${c.cyan("X")}${"X"}`)}${"X"}`
-      )}${"X"}`
-    ),
-  {
-    colorette: require(".."),
-    chalk: require("chalk"),
-    kleur: require("kleur"),
-    colors: require("colors"),
-    "ansi-colors": require("ansi-colors"),
-  }
-)
+const test = (c) =>
+  c.red(`${c.bold(`${c.cyan(`${c.yellow("yellow")}cyan`)}`)}red`)
+
+new bench.Suite()
+  .add("  chalk       ", () => test(chalk))
+  .add("  kleur       ", () => test(kleur))
+  .add("  colors      ", () => test(colors))
+  .add("  ansi-colors ", () => test(ansicolors))
+  .add("  picocolors  ", () => test(picocolors))
+  .add("+ colorette   ", () => test(colorette))
+  .on("cycle", ({ target: { name, hz } }) =>
+    console.log(name, `${Math.floor(hz).toLocaleString()} ops/sec`.padStart(18))
+  )
+  .run()

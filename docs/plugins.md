@@ -1,5 +1,21 @@
 # PostCSS Plugins
 
+**Table of Contents**
+
+* [Control](#control)
+* [Packs](#packs)
+* [Future CSS Syntax](#future-css-syntax)
+* [Fallbacks](#fallbacks)
+* [Language Extensions](#language-extensions)
+* [Images and Fonts](#images-and-fonts)
+* [Grids](#grids)
+* [Optimizations](#optimizations)
+* [Shortcuts](#shortcuts)
+* [Others](#others)
+* [Analysis](#analysis)
+* [Reporters](#reporters)
+* [Fun](#fun)
+
 ## Control
 
 There are two ways to make PostCSS magic more explicit.
@@ -40,7 +56,6 @@ Or enable plugins directly in CSS using [`postcss-use`]:
 * [`cssnano`] contains plugins that optimize CSS size for use in production.
 * [`oldie`] contains plugins that transform your CSS
   for older Internet Explorer compatibility.
-* [`precss`] contains plugins that allow you to use Sass-like CSS.
 * [`rucksack`] contains plugins to speed up CSS development
   with new features and shortcuts.
 * [`level4`] contains only plugins that let you write CSS4 without
@@ -48,18 +63,19 @@ Or enable plugins directly in CSS using [`postcss-use`]:
 * [`short`] adds and extends numerous shorthand properties.
 * [`stylelint`] contains plugins that lint your stylesheets.
 * [`postcss-hamster`] for vertical rhythm, typography, modular scale functions.
-* [`postcss-preset-env`] lets you convert modern CSS into something most browsers can understand, determining the polyfills you need based on your targeted browsers or runtime environments.
-* [`postcss-ui-theme`] gives you syntax sugar and allow you change theme.
+* [`postcss-preset-env`] lets you convert modern CSS into something most
+  browsers can understand, determining the polyfills you need based
+  on your targeted browsers or runtime environments.
+* [`postcss-ui-theme`] gives you syntax sugar and allows you to change theme.
 
-[`postcss-preset-env`]: https://github.com/jonathantneal/postcss-preset-env/
+[`postcss-preset-env`]: https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env
 [`postcss-utilities`]:  https://github.com/ismamz/postcss-utilities
 [`postcss-hamster`]:    https://github.com/h0tc0d3/postcss-hamster
 [`stylelint`]:          https://github.com/stylelint/stylelint
 [`rucksack`]:           https://github.com/seaneking/rucksack
 [`cssnano`]:            https://cssnano.co/
 [`level4`]:             https://github.com/stephenway/level4
-[`precss`]:             https://github.com/jonathantneal/precss
-[`oldie`]:              https://github.com/jonathantneal/oldie
+[`oldie`]:              https://github.com/csstools/oldie
 [`atcss`]:              https://github.com/morishitter/atcss
 [`postcss-ui-theme`]:   https://github.com/cleverboy32/postcss-ui-theme
 
@@ -68,6 +84,8 @@ Or enable plugins directly in CSS using [`postcss-use`]:
 
 * [`postcss-apply`] supports custom properties sets references.
 * [`postcss-attribute-case-insensitive`] supports case insensitive attributes.
+* [`postcss-bidirection`] generate left-to-right and right-to-left styles
+  with single syntax.
 * [`postcss-color-function`] supports functions to transform colors.
 * [`postcss-color-gray`] supports the `gray()` function.
 * [`postcss-color-hex-alpha`] supports `#rrggbbaa` and `#rgba` notation.
@@ -91,7 +109,8 @@ Or enable plugins directly in CSS using [`postcss-use`]:
 * [`postcss-font-normalize`] to normalize font, especially `font-family`.
 * [`postcss-font-variant`] transpiles human-readable `font-variant`
   to more widely supported CSS.
-* [`postcss-font-family-system-ui`] transforms W3C CSS `font-family: system-ui` to a practical font list.
+* [`postcss-font-family-system-ui`] transforms W3C CSS `font-family: system-ui`
+  to a practical font list.
 * [`postcss-font-display`] add `font-display` css rule.
 * [`postcss-host`] makes the Shadow DOM’s `:host` selector work properly
   with pseudo-classes.
@@ -99,9 +118,11 @@ Or enable plugins directly in CSS using [`postcss-use`]:
   to clean inherit styles.
 * [`postcss-logical-properties`] transforms `start` and `end` properties
   to `left` and `right` depending on the writing direction of the document.
-* [`postcss-bidirection`] generate left-to-right and right-to-left styles with single syntax.
 * [`postcss-media-minmax`] adds `<=` and `=>` statements to media queries.
+* [`postcss-multi-value-display`] transforms `inline flex` and `block flow`
+  to `inline-flex` and `block`
 * [`postcss-pseudo-class-any-link`] adds `:any-link` pseudo-class.
+* [`postcss-pseudo-is`] transforms `:is()` to more compatible CSS.
 * [`postcss-selector-not`] transforms CSS4 `:not()` to CSS3 `:not()`.
 * [`postcss-selector-matches`] transforms CSS4 `:matches()`
   to more compatible CSS.
@@ -109,7 +130,6 @@ Or enable plugins directly in CSS using [`postcss-use`]:
   through logical rather than direction / physical rules.
 * [`postcss-subgrid`] provides a basic shim for the CSS `display: subgrid` spec.
 * [`mq4-hover-shim`] supports the `@media (hover)` feature.
-* [`postcss-pseudo-is`] transforms `:is()` to more compatible CSS.
 
 See also [`postcss-preset-env`] plugins pack to add future CSS syntax
 by one line of code.
@@ -130,6 +150,8 @@ by one line of code.
 * [`postcss-hash-classname`] append hash string to your css class name.
 * [`postcss-mqwidth-to-class`] converts min/max-width media queries to classes.
 * [`postcss-opacity`] adds opacity filter for IE8.
+* [`postcss-opacity-percentage`] transforms CSS4 percentage-based `opacity`
+  values to float values.
 * [`postcss-page-break`] adds `page-break-` fallback to `break-` properties.
 * [`postcss-pseudoelements`] Convert `::` selectors into `:` selectors
   for IE 8 compatibility.
@@ -149,9 +171,12 @@ by one line of code.
   and other old browsers.
 * [`pixrem`] generates pixel fallbacks for `rem` units.
 * [`postcss-fixie`] adds easy and painless IE hacks
-* [`postcss-safe-area`] adds browser fallbacks for `safe-area-inset` `env` variables.
+* [`postcss-safe-area`] adds browser fallbacks for `safe-area-inset` `env`
+  variables.
 * [`webp-in-css`] to use WebP background images in CSS.
 * [`postcss-clamp`] transform `clamp()` to combination of `min/max`
+* [`postcss-spring-easing`] replaces `spring()` with a resulting `linear()`
+  function and add a `--spring-duration` css variable.
 
 See also [`oldie`] plugins pack.
 
@@ -163,7 +188,8 @@ See also [`oldie`] plugins pack.
 * [`postcss-aspect-ratio`] fix an element's dimensions to an aspect ratio.
 * [`postcss-atroot`] place rules directly at the root node.
 * [`postcss-bem-fix`] adds at-rules for BEM and SUIT style classes.
-* [`postcss-click`] allows to use the `:click` pseudo class and implement it in JavaScript.
+* [`postcss-click`] allows to use the `:click` pseudo class and implement
+  it in JavaScript.
 * [`postcss-compact-mq`] provides compact syntax for media queries based
   on viewport width.
 * [`postcss-conditionals`] adds `@if` statements.
@@ -218,8 +244,12 @@ for targeting all button elements.
   selector.
 * [`csstyle`] adds components workflow to your styles.
 * [`postcss-percentage`] support Sass-like `percentage()` function.
-
-See also [`precss`] plugins pack to add them by one line of code.
+* [`postcss-custom-css-units`] Define custom css units and convert them
+  to CSS variables.
+* [`postcss-easy-z`] lets you organize z-indices by declaring relations
+  between them.
+* [`@csstools/postcss-design-tokens`] lets you import and use design tokens
+  from CSS.
 
 [Rust-style pattern matching]: https://doc.rust-lang.org/book/match.html
 
@@ -245,6 +275,7 @@ See also [`precss`] plugins pack to add them by one line of code.
   colorblindness.
 * [`postcss-contrast`] checks background-color and gives either white or black.
 * [`postcss-dark-theme-class`] to force dark or light theme by custom switcher.
+* [`postcss-theme-colors`] add dark and light theme with color groups.
 * [`postcss-hexrgba`] adds shorthand hex `rgba(hex, alpha)` method.
 * [`postcss-rgb-plz`] converts 3 or 6 digit hex values to `rgb`.
 * [`postcss-rgba-hex`] converts `rgba` values to `hex` analogues.
@@ -257,48 +288,59 @@ See also [`precss`] plugins pack to add them by one line of code.
 
 ## Images and Fonts
 
+* [`avif-in-css`] to use AVIF image format in CSS background.
 * [`postcss-assets`] allows you to simplify URLs, insert image dimensions,
   and inline files.
 * [`postcss-assets-rebase`] rebases assets from `url()`.
 * [`postcss-at2x`] handles retina background images via use of `at-2x` keyword.
-* [`postcss-background-image-auto-size`] generates CSS rules `width` and `height` for `background-image` automatically.
-* [`postcss-border-9-patch`] generates 9-patch like border styles via a custom rule.
+* [`postcss-background-image-auto-size`] generates CSS rules `width`
+  and `height` for `background-image` automatically.
+* [`postcss-border-9-patch`] generates 9-patch like border styles
+  via a custom rule.
 * [`postcss-cachebuster`] adds version parameter to images and fonts
 * [`postcss-copy-assets`] copies assets referenced by relative `url()`s
   into a build directory.
 * [`postcss-data-packer`] moves embedded Base64 data to a separate file.
 * [`postcss-easysprites`] combine images to sprites, based on their
   image.png`#hash` and aspect ratio (`@2x`).
+* [`postcss-icon-blender`] create custom SVG icon sets from over 80,000 free
+  and open-source icons
 * [`postcss-image-set`] adds `background-image` with first image
   for `image-set()`.
 * [`postcss-image-inliner`] inlines local and remote images.
 * [`postcss-instagram`] adds Instagram filters to `filter`.
 * [`postcss-filter-tint`] adds tint filter to elements such as images.
-* [`postcss-foft-classes`] adds guarding classes to blocks using web fonts for better font loading strategies.
+* [`postcss-foft-classes`] adds guarding classes to blocks using web fonts
+  for better font loading strategies.
 * [`postcss-font-awesome`] adds an easy shortcut to font-awesome unicode codes
 * [`postcss-font-pack`] simplifies font declarations and validates they match
   configured font packs.
-* [`postcss-fontsize`] generates `rem` unit `font-size` and `line-height` with `px` fallbacks.
+* [`postcss-fontsize`] generates `rem` unit `font-size` and `line-height`
+  with `px` fallbacks.
 * [`postcss-fontpath`] adds font links for different browsers.
+* [`postcss-font-grabber`] it grabs remote fonts in `@font-face`,
+  download them and update your CSS.
 * [`postcss-lazyimagecss`] adds image width and height automatically.
 * [`postcss-lazysprite`] generates sprites from the directory of images.
 * [`postcss-placehold`] makes it easy to drop in placeholder images.
 * [`postcss-resemble-image`] provides a gradient fallback for an image that
 loosely resembles the original.
+* [`postcss-resolve-urls`] resolves relative urls referenced in `url()`s
 * [`postcss-responsive-images`] adds stylesheets for making
   your images responsive.
 * [`postcss-sprites`] generates CSS sprites from stylesheets.
 * [`postcss-svg`] insert inline SVG to CSS and allows to manage it colors.
 * [`postcss-svg-fallback`] converts SVG in your CSS to PNG files for IE 8.
 * [`postcss-svgo`] processes inline SVG through [SVGO].
-* [`postcss-unicode-characters`] makes it easier to write `unicode-range` descriptors.
+* [`postcss-unicode-characters`] makes it easier to write `unicode-range`
+  descriptors.
 * [`postcss-url`] rebases or inlines `url()`s.
+* [`postcss-urlrebase`] rebases `url()`s to a given root URL.
 * [`postcss-urlrev`] adds MD5 hash strings to `url()`s.
 * [`postcss-write-svg`] write inline SVGs in CSS.
 * [`postcss-inline-svg`] inline SVG images and customize their styles.
 * [`webpcss`] adds URLs for WebP images for browsers that support WebP.
-* [`postcss-font-grabber`] it grabs remote fonts in `@font-face`, download them and update your CSS.
-
+* [`webp-in-css`] to use WebP image format in CSS background.
 
 ## Grids
 
@@ -321,12 +363,16 @@ loosely resembles the original.
 
 * [`postcss-calc`] reduces `calc()` to values
   (when expressions involve the same units).
-* [`postcss-remove-nested-calc`] `calc(100vw - calc(20% - 10px))` to `calc(100vw - (20% - 10px))` for IE 11 compatibility.
-* [`postcss-class-name-shortener`] shortens CSS class names to optimize website performance.
-* [`postcss-combine-duplicated-selectors`] automatically join identical css selectors.
+* [`postcss-remove-nested-calc`] `calc(100vw - calc(20% - 10px))` to
+  `calc(100vw - (20% - 10px))` for IE 11 compatibility.
+* [`postcss-class-name-shortener`] shortens CSS class names to optimize
+  website performance.
+* [`postcss-combine-duplicated-selectors`] automatically join identical
+  selectors.
 * [`postcss-filter-mq`] Filter all matching or non-matching media queries.
 * [`postcss-import`] inlines the stylesheets referred to by `@import` rules.
-* [`postcss-nested-import`] inlines stylesheets referred to by `@import` rules inside nested rule blocks.
+* [`postcss-nested-import`] inlines stylesheets referred to by `@import` rules
+  inside nested rule blocks.
 * [`postcss-partial-import`] inlines standard imports and Sass-like partials.
 * [`postcss-reference`] emulates Less’s `@import`.
 * [`postcss-remove-root`] removes all instances of `:root` from a stylesheet.
@@ -339,10 +385,12 @@ loosely resembles the original.
 * [`stylehacks`] removes CSS hacks based on browser support.
 * [`postcss-mq-optimize`] removes invalid media queries or its expressions.
 * [`postcss-uncss`] removes unused CSS from your stylesheets.
-* [`postcss-html-filter`] filters out CSS that does not apply to the HTML you provide.
+* [`postcss-html-filter`] filters out CSS that does not apply to the HTML
+  you provide.
 * [`postcss-no-important`] delete declarations !important.
 * [`postcss-deep-scopable`] unified deep scoped style for Vue.js.
 * [`postcss-deadcss`] helps to find dead CSS in stylesheets.
+* [`postcss-variable-compress`] minifies css variables and saves you space.
 
 See also plugins in modular minifier [`cssnano`].
 
@@ -356,7 +404,8 @@ See also plugins in modular minifier [`cssnano`].
 * [`postcss-all-link-colors`] insert colors for link-related pseudo-classes.
 * [`postcss-border`] adds shorthand for width and color of all borders
   in `border` property.
-* [`postcss-border-shortcut`] PostCSS plugin for assign default `border` type if not expressed.
+* [`postcss-border-shortcut`] PostCSS plugin for assign default `border` type
+  if not expressed.
 * [`postcss-button`] creates buttons.
 * [`postcss-center`] centers elements.
 * [`postcss-circle`] inserts a circle with color.
@@ -373,12 +422,15 @@ See also plugins in modular minifier [`cssnano`].
 * [`postcss-hidden`] allows for easy ways to hide elements.
 * [`postcss-input-style`] adds new pseudo-elements for cross-browser styling
   of inputs.
-* [`postcss-nested-ancestors`] reference any parent/ancestor selector in nested CSS.
-* [`postcss-parent-selector`] adds a parent selector to the beginning of all rules.
+* [`postcss-nested-ancestors`] reference any parent/ancestor selector
+  in nested CSS.
+* [`postcss-parent-selector`] adds a parent selector to the beginning
+  of all rules.
 * [`postcss-position`] adds shorthand declarations for position attributes.
 * [`postcss-property-lookup`] allows referencing property values without
   a variable.
-* [`postcss-range-value`] range value with a max and min value between two screen sizes.
+* [`postcss-range-value`] range value with a max and min value between
+  two screen sizes.
 * [`postcss-responsive-type`] changes `font-size` depends on screen size.
 * [`postcss-scrib`] define your own aliases/shortcuts for properties or values.
 * [`postcss-short-font-size`] extends `font-size` to define line-height
@@ -399,22 +451,32 @@ See also plugins in modular minifier [`cssnano`].
 * [`postcss-verthorz`] adds vertical and horizontal spacing declarations.
 * [`font-magician`] generates all the `@font-face` rules needed in CSS.
 * [`postcss-animation`] PostCSS plugin that adds `@keyframes` from animate.css.
-* [`postcss-magic-animations`] PostCSS plugin that adds `@keyframes` from Magic Animations.
+* [`postcss-magic-animations`] PostCSS plugin that adds `@keyframes`
+  from Magic Animations.
 
 
 ## Others
 
-* [`postcss-alter-property-value`] alters your CSS declarations from a rule based configuration.
+* [`postcss-add-root-selector`] intelligently wraps all rules
+  in a custom selector.
+* [`postcss-alter-property-value`] alters your CSS declarations
+  from a rule based configuration.
 * [`postcss-attribute-selector-prefix`] adds a prefix to attribute selectors
+* [`postcss-auto-rem`] compiles pixel units to `rem` without configuration.
 * [`postcss-autoreset`]  automatically adds reset styles.
 * [`postcss-bem-to-js`] creates a JavaScript definition file for BEM-style CSS.
 * [`postcss-bom`] adds a UTF-8 BOM to files.
+* [`postcss-blurry-gradient-workaround`] fixes blurry CSS gradients
+  with too many explicit end-stops.
 * [`postcss-camelcaser`] transforms selectors to CamelCase.
 * [`postcss-class-prefix`] adds a prefix/namespace to class selectors.
 * [`postcss-classes-to-mixins`] converts classes to Sass, Less and Stylus mixins
 * [`postcss-currency`] replaces name of currency with symbols.
+* [`postcss-d-ts`] generates `.d.ts` declaration for TypeScript `import`
+  from used CSS classes and ids
 * [`postcss-eol`] replaces EOL of files.
-* [`postcss-extract-value`] extracts values from css properties and puts them into variables.
+* [`postcss-extract-value`] extracts values from css properties and puts them
+  into variables.
 * [`postcss-fakeid`] transforms `#foo` IDs to attribute selectors `[id="foo"]`.
 * [`postcss-filter-stream`] blacklist files / folders that you don’t want
   to process with a PostCSS plugin.
@@ -431,35 +493,45 @@ See also plugins in modular minifier [`cssnano`].
 * [`postcss-inline-rtl`] converts your CSS to right-to-left,
   but inline (adding just what you need).
 * [`postcss-join-transitions`] joins conflicting transition declarations.
-* [`postcss-letter-tracking`] generates relative, Photoshop-compatible letter tracking for improved letter spacing.
+* [`postcss-letter-tracking`] generates relative, Photoshop-compatible
+  letter tracking for improved letter spacing.
 * [`postcss-light-text`]  adds `-webkit-` antialiasing for light text.
 * [`postcss-modules`]  allows to use CSS Modules everywhere.
-* [`postcss-momentum-scrolling`] adding momentum style scrolling behavior (`-webkit-overflow-scrolling:touch`) for elements with overflow (scroll, auto) on iOS.
+* [`postcss-momentum-scrolling`] adding momentum style scrolling behavior
+  (`-webkit-overflow-scrolling:touch`) for elements with overflow on iOS.
 * [`postcss-mq-keyframes`] moves any animation keyframes in media queries
   to the end of the file.
-* [`postcss-mq-last`] gives media query rules precedence by moving them to the end of the file.
+* [`postcss-mq-last`] gives media query rules precedence by moving them
+  to the end of the file.
 * [`postcss-node-modules-replacer`] replaces path than includes `node_modules`
   to `~`.
-* [`postcss-plugin-namespace`] add a css selector to all rules, so that css file don't affect other element.
+* [`postcss-plugin-namespace`] add a css selector to all rules,
+  so that CSS file don’t affect other element.
+* [`postcss-prefix-hover`] adds a prefixed to any selector containing `:hover`.
 * [`postcss-pseudo-content-insert`] adds `content: ''` to `:before` and `:after`
   if it is missing.
-* [`postcss-pseudo-element-cases`] converts `.style::BEFORE` into `.style::before` and vice versa.
-* [`postcss-pseudo-element-colons`] converts `.style:before` into `.style::before` and vice versa.
+* [`postcss-pseudo-element-cases`] converts `.style::BEFORE`
+  into `.style::before` and vice versa.
+* [`postcss-pseudo-element-colons`] converts `.style:before`
+  into `.style::before` and vice versa.
 * [`postcss-pseudo-elements-content`] adds `content: ''` to `:before-c`
   and `:after-c`.
 * [`postcss-pxtorem`] converts pixel units to `rem`.
 * [`postcss-raw`] protects nodes inside `@raw` at-rules from being touched
   by other plugins.
 * [`postcss-remove-prefixes`] removes vendor prefixes.
+* [`postcss-rtlcss`] creates left-to-right and right-to-left rules
+  in a single CSS file.
 * [`postcss-safe-important`] adds `!important` to style declarations safely.
-* [`postcss-sanitize`] remove properties and values using rules (css sanitization).
+* [`postcss-sanitize`] remove properties and values using rules.
 * [`postcss-scopify`] adds a user input scope to each selector.
 * [`postcss-select`] select rules based off a selector list.
 * [`postcss-selector-prefixer`] adds a prefix to css selectors.
 * [`postcss-shorthand-expand`] expands shorthand properties.
 * [`postcss-simple-trig`] calculate trigonometric functions: sin/cos/tan.
 * [`postcss-sorting`] sort rules content with specified order.
-* [`postcss-sort-media-queries`] combine and sort CSS media queries with mobile first or desktop first methods
+* [`postcss-sort-media-queries`] combine and sort CSS media queries
+  with mobile first or desktop first methods.
 * [`postcss-style-guide`] generates a style guide automatically.
 * [`css-declaration-sorter`] sorts CSS declarations fast and automatically
   in a certain order.
@@ -467,9 +539,18 @@ See also plugins in modular minifier [`cssnano`].
 * [`rtlcss`] mirrors styles for right-to-left locales.
 * [`stylefmt`] modern CSS formatter that works well with `stylelint`.
 * [`postcss-autocorrect`] corrects typos and notifies in the console.
-* [`postcss-px-to-viewport`] generates viewport units (`vw`, `vh`, `vmin`, `vmax`) from `px` units.
+* [`postcss-px-to-viewport`] generates viewport units
+  (`vw`, `vh`, `vmin`, `vmax`) from `px` units.
 * [`postcss-viewport-height-correction`] solves the popular problem when `100vh`
   doesn’t fit the mobile browser screen.
+* [`postcss-unit-processor`] flexible processing of CSS units.
+* [`postcss-rem-to-px`] converts `rem` values to `px` values.
+* [`postcss-design-tokens`] provides a function to retrieve design tokens
+  expressed in JS or JSON, within CSS.
+* [`postcss-pixel-to-remvw`] converting px to both of rem and vw, also one of them
+* [`postcss-easy-import`] inline `@import` rules content with extra features.
+* [`postcss-plugin-ignore-file`] ignore file with a top-comment `/* @ignore */`.
+
 
 [flexbox bugs]: https://github.com/philipwalton/flexbugs
 
@@ -491,7 +572,8 @@ See also plugins in modular minifier [`cssnano`].
 
 * [`postcss-browser-reporter`] displays warning messages from other plugins
   right in your browser.
-* [`postcss-forced-variables`] provides warnings and errors when specified properties don't use variables.
+* [`postcss-forced-variables`] provides warnings and errors when specified
+  properties don’t use variables.
 * [`postcss-reporter`] logs warnings and other messages from other plugins
   in the console.
 
@@ -519,11 +601,13 @@ See also plugins in modular minifier [`cssnano`].
 * [`postcss-spanish-stylesheets`] Spanish Style Sheets.
 * [`postcss-nope`] lets you write `nope` instead of `none`.
 * [`postcss-glitch`] add glitch effect to your text.
+* [`postcss-khaleesi`] translate CSS values and properties to
+  `khaleesi meme` language.
 
 [`postcss-background-image-auto-size`]:   https://github.com/JustClear/postcss-background-image-auto-size
 [`postcss-letter-tracking`]:              https://github.com/letsjaam/postcss-letter-tracking
 [`postcss-combine-duplicated-selectors`]: https://github.com/ChristianMurphy/postcss-combine-duplicated-selectors
-[`postcss-attribute-case-insensitive`]:   https://github.com/Semigradsky/postcss-attribute-case-insensitive
+[`postcss-attribute-case-insensitive`]:   https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-attribute-case-insensitive
 [`postcss-alter-property-value`]:         https://github.com/kunukn/postcss-alter-property-value
 [`postcss-attribute-selector-prefix`]:    https://github.com/GitScrum/postcss-attribute-selector-prefix
 [`postcss-gradient-transparency-fix`]:    https://github.com/gilmoreorless/postcss-gradient-transparency-fix
@@ -536,7 +620,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-andalusian-stylesheets`]:       https://github.com/bameda/postcss-andalusian-stylesheets
 [`postcss-australian-stylesheets`]:       https://github.com/dp-lewis/postcss-australian-stylesheets
 [`postcss-responsive-properties`]:        https://github.com/alexandr-solovyov/postcss-responsive-properties
-[`postcss-pseudo-class-any-link`]:        https://github.com/jonathantneal/postcss-pseudo-class-any-link
+[`postcss-pseudo-class-any-link`]:        https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-pseudo-class-any-link
 [`postcss-pseudo-content-insert`]:        https://github.com/liquidlight/postcss-pseudo-content-insert
 [`postcss-canadian-stylesheets`]:         https://github.com/chancancode/postcss-canadian-stylesheets
 [`postcss-increase-specificity`]:         https://github.com/MadLittleMods/postcss-increase-specificity
@@ -544,7 +628,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-italian-stylesheets`]:          https://github.com/Pustur/postcss-italian-stylesheets
 [`postcss-russian-stylesheets`]:          https://github.com/Semigradsky/postcss-russian-stylesheets
 [`postcss-swedish-stylesheets`]:          https://github.com/johnie/postcss-swedish-stylesheets
-[`postcss-color-rebeccapurple`]:          https://github.com/postcss/postcss-color-rebeccapurple
+[`postcss-color-rebeccapurple`]:          https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-color-rebeccapurple
 [`postcss-color-rgba-fallback`]:          https://github.com/postcss/postcss-color-rgba-fallback
 [`postcss-spanish-stylesheets`]:          https://github.com/ismamz/postcss-spanish-stylesheets
 [`postcss-at-rules-variables`]:           https://github.com/GitScrum/postcss-at-rules-variables
@@ -554,10 +638,10 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-bidirection`]:                  https://github.com/gasolin/postcss-bidirection
 [`postcss-lolcat-stylesheets`]:           https://github.com/sandralundgren/postcss-lolcat-stylesheets
 [`postcss-minify-font-weight`]:           https://github.com/ben-eb/postcss-minify-font-weight
-[`postcss-pseudo-class-enter`]:           https://github.com/jonathantneal/postcss-pseudo-class-enter
-[`postcss-transform-shortcut`]:           https://github.com/jonathantneal/postcss-transform-shortcut
+[`postcss-pseudo-class-enter`]:           https://github.com/csstools/postcss-pseudo-class-enter
+[`postcss-transform-shortcut`]:           https://github.com/csstools/postcss-transform-shortcut
 [`postcss-unicode-characters`]:           https://github.com/ben-eb/postcss-unicode-characters
-[`postcss-custom-properties`]:            https://github.com/postcss/postcss-custom-properties
+[`postcss-custom-properties`]:            https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-custom-properties
 [`postcss-czech-stylesheets`]:            https://github.com/HoBi/postcss-czech-stylesheets
 [`postcss-discard-font-face`]:            https://github.com/ben-eb/postcss-discard-font-face
 [`postcss-responsive-images`]:            https://github.com/azat-io/postcss-responsive-images
@@ -565,7 +649,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-tatar-stylesheets`]:            https://github.com/azat-io/postcss-tatar-stylesheets
 [`postcss-browser-reporter`]:             https://github.com/postcss/postcss-browser-reporter
 [`postcss-current-selector`]:             https://github.com/komlev/postcss-current-selector
-[`postcss-custom-selectors`]:             https://github.com/postcss/postcss-custom-selectors
+[`postcss-custom-selectors`]:             https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-custom-selectors
 [`postcss-discard-comments`]:             https://github.com/ben-eb/postcss-discard-comments
 [`postcss-forced-variables`]:             https://github.com/alekhrycaiko/postcss-forced-variables
 [`postcss-magic-animations`]:             https://github.com/nucliweb/postcss-magic-animations/
@@ -575,9 +659,10 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-selector-matches`]:             https://github.com/postcss/postcss-selector-matches
 [`postcss-shorthand-expand`]:             https://github.com/johnotander/postcss-shorthand-expand
 [`postcss-dark-theme-class`]:             https://github.com/postcss/postcss-dark-theme-class
+[`postcss-theme-colors`]:                 https://github.com/ambar/postcss-theme-colors
 [`postcss-all-link-colors`]:              https://github.com/jedmao/postcss-all-link-colors
 [`postcss-border-shortcut`]:              https://github.com/michelemazzucco/postcss-border-shortcut
-[`postcss-color-hex-alpha`]:              https://github.com/postcss/postcss-color-hex-alpha
+[`postcss-color-hex-alpha`]:              https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-color-hex-alpha
 [`postcss-define-property`]:              https://github.com/daleeidd/postcss-define-property
 [`postcss-define-function`]:              https://github.com/titancat/postcss-define-function
 [`postcss-filter-gradient`]:              https://github.com/yuezk/postcss-filter-gradient
@@ -591,23 +676,23 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-range-value`]:                  https://github.com/soberwp/postcss-range-value
 [`postcss-responsive-type`]:              https://github.com/seaneking/postcss-responsive-type
 [`postcss-round-subpixels`]:              https://github.com/himynameisdave/postcss-round-subpixels
-[`postcss-short-font-size`]:              https://github.com/jonathantneal/postcss-short-font-size
+[`postcss-short-font-size`]:              https://github.com/csstools/postcss-short-font-size
 [`postcss-vertical-rhythm`]:              https://github.com/markgoodyear/postcss-vertical-rhythm
 [`postcss-border-9-patch`]:               https://github.com/teaualune/postcss-border-9-patch
 [`postcss-color-function`]:               https://github.com/postcss/postcss-color-function
-[`postcss-conic-gradient`]:               https://github.com/jonathantneal/postcss-conic-gradient
+[`postcss-conic-gradient`]:               https://github.com/csstools/postcss-conic-gradient
 [`postcss-convert-values`]:               https://github.com/ben-eb/postcss-convert-values
 [`postcss-flexbugs-fixes`]:               https://github.com/luisrudge/postcss-flexbugs-fixes
 [`postcss-font-format-keywords`]:         https://github.com/valtlai/postcss-font-format-keywords
 [`postcss-font-normalize`]:               https://github.com/iahu/postcss-font-normalize
 [`postcss-hash-classname`]:               https://github.com/ctxhou/postcss-hash-classname
 [`postcss-oldschool-grid`]:               https://github.com/lordgiotto/postcss-oldschool-grid
-[`postcss-partial-import`]:               https://github.com/jonathantneal/postcss-partial-import
+[`postcss-partial-import`]:               https://github.com/csstools/postcss-partial-import
 [`postcss-pseudoelements`]:               https://github.com/axa-ch/postcss-pseudoelements
 [`postcss-resemble-image`]:               https://github.com/ben-eb/postcss-resemble-image
 [`postcss-safe-important`]:               https://github.com/Crimx/postcss-safe-important
 [`postcss-shades-of-gray`]:               https://github.com/laureanoarcanio/postcss-shades-of-gray
-[`postcss-short-position`]:               https://github.com/jonathantneal/postcss-short-position
+[`postcss-short-position`]:               https://github.com/csstools/postcss-short-position
 [`postcss-single-charset`]:               https://github.com/hail2u/postcss-single-charset
 [`css-declaration-sorter`]:               https://github.com/Siilwyn/css-declaration-sorter
 [`postcss-alias-atrules`]:                https://github.com/maximkoretskiy/postcss-alias-atrules
@@ -626,15 +711,15 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-regexp-detect`]:                https://github.com/devex-web-frontend/postcss-regexp-detect
 [`postcss-reverse-media`]:                https://github.com/MadLittleMods/postcss-reverse-media
 [`postcss-russian-units`]:                https://github.com/Semigradsky/postcss-russian-units
-[`postcss-short-spacing`]:                https://github.com/jonathantneal/postcss-short-spacing
+[`postcss-short-spacing`]:                https://github.com/csstools/postcss-short-spacing
 [`postcss-simple-extend`]:                https://github.com/davidtheclark/postcss-simple-extend
 [`postcss-speech-bubble`]:                https://github.com/archana-s/postcss-speech-bubble
 [`postcss-aspect-ratio`]:                 https://github.com/arccoza/postcss-aspect-ratio
 [`postcss-brand-colors`]:                 https://github.com/postcss/postcss-brand-colors
-[`postcss-no-important`]: https://github.com/DUBANGARCIA/postcss-no-important
+[`postcss-no-important`]:                 https://github.com/DUBANGARCIA/postcss-no-important
 [`postcss-class-prefix`]:                 https://github.com/thompsongl/postcss-class-prefix
 [`postcss-conditionals`]:                 https://github.com/andyjansson/postcss-conditionals
-[`postcss-custom-media`]:                 https://github.com/postcss/postcss-custom-media
+[`postcss-custom-media`]:                 https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-custom-media
 [`postcss-default-unit`]:                 https://github.com/antyakushev/postcss-default-unit
 [`postcss-flexboxfixer`]:                 https://github.com/hallvors/postcss-flexboxfixer
 [`postcss-font-awesome`]:                 https://github.com/dan-gamble/postcss-font-awesome
@@ -646,7 +731,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-mq-keyframes`]:                 https://github.com/TCotton/postcss-mq-keyframes
 [`postcss-nested-props`]:                 https://github.com/jedmao/postcss-nested-props
 [`postcss-sassy-mixins`]:                 https://github.com/andyjansson/postcss-sassy-mixins
-[`postcss-selector-not`]:                 https://github.com/postcss/postcss-selector-not
+[`postcss-selector-not`]:                 https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-selector-not
 [`postcss-svg-fallback`]:                 https://github.com/justim/postcss-svg-fallback
 [`postcss-cachebuster`]:                  https://github.com/glebmachine/postcss-cachebuster
 [`postcss-color-alpha`]:                  https://github.com/avanes/postcss-color-alpha
@@ -682,7 +767,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-grid-fluid`]:                   https://github.com/francoisromain/postcss-grid-fluid
 [`postcss-inline-rtl`]:                   https://github.com/jakob101/postcss-inline-rtl
 [`postcss-inline-svg`]:                   https://github.com/TrySound/postcss-inline-svg
-[`postcss-short-text`]:                   https://github.com/jonathantneal/postcss-short-text
+[`postcss-short-text`]:                   https://github.com/csstools/postcss-short-text
 [`postcss-animation`]:                    https://github.com/zhouwenbin/postcss-animation
 [`postcss-autoreset`]:                    https://github.com/maximkoretskiy/postcss-autoreset
 [`postcss-color-hcl`]:                    https://github.com/devgru/postcss-color-hcl
@@ -700,7 +785,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-placehold`]:                    https://github.com/awayken/postcss-placehold
 [`postcss-reference`]:                    https://github.com/dehuszar/postcss-reference
 [`postcss-typescale`]:                    https://github.com/francoisromain/postcss-typescale
-[`postcss-write-svg`]:                    https://github.com/jonathantneal/postcss-write-svg
+[`postcss-write-svg`]:                    https://github.com/csstools/postcss-write-svg
 [`postcss-disabled`]:                     https://github.com/cocco3/postcss-disabled
 [`postcss-clearfix`]:                     https://github.com/seaneking/postcss-clearfix
 [`postcss-colormin`]:                     https://github.com/ben-eb/colormin
@@ -726,6 +811,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-initial`]:                      https://github.com/maximkoretskiy/postcss-initial
 [`postcss-modules`]:                      https://github.com/outpunk/postcss-modules
 [`postcss-opacity`]:                      https://github.com/iamvdo/postcss-opacity
+[`postcss-opacity-percentage`]:           https://github.com/Dreamseer/postcss-opacity-percentage
 [`postcss-pointer`]:                      https://github.com/markgoodyear/postcss-pointer
 [`postcss-pxtorem`]:                      https://github.com/cuth/postcss-pxtorem
 [`postcss-rgb-plz`]:                      https://github.com/himynameisdave/postcss-rgb-plz
@@ -749,7 +835,9 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-layout`]:                       https://github.com/arccoza/postcss-layout
 [`postcss-mixins`]:                       https://github.com/postcss/postcss-mixins
 [`postcss-nested`]:                       https://github.com/postcss/postcss-nested
+[`postcss-rtlcss`]:                       https://github.com/elchininet/postcss-rtlcss
 [`postcss-select`]:                       https://github.com/johnotander/postcss-select
+[`postcss-urlrebase`]:                    https://github.com/strarsis/postcss-urlrebase
 [`postcss-urlrev`]:                       https://github.com/yuezk/postcss-urlrev
 [`postcss-zindex`]:                       https://github.com/ben-eb/postcss-zindex
 [`list-selectors`]:                       https://github.com/davidtheclark/list-selectors
@@ -760,7 +848,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-match`]:                        https://github.com/rtsao/postcss-match
 [`postcss-scrib`]:                        https://github.com/sneakertack/postcss-scrib
 [`css2modernizr`]:                        https://github.com/vovanbo/css2modernizr
-[`font-magician`]:                        https://github.com/jonathantneal/postcss-font-magician
+[`font-magician`]:                        https://github.com/csstools/postcss-font-magician
 [`immutable-css`]:                        https://github.com/johnotander/immutable-css
 [`perfectionist`]:                        https://github.com/ben-eb/perfectionist
 [`postcss-uncss`]:                        https://github.com/RyanZim/postcss-uncss
@@ -778,7 +866,7 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-size`]:                         https://github.com/postcss/postcss-size
 [`postcss-size-advanced`]:                https://github.com/jhpratt/postcss-size-advanced
 [`postcss-svgo`]:                         https://github.com/ben-eb/postcss-svgo
-[`postcss-unmq`]:                         https://github.com/jonathantneal/postcss-unmq
+[`postcss-unmq`]:                         https://github.com/csstools/postcss-unmq
 [`postcss-vmin`]:                         https://github.com/iamvdo/postcss-vmin
 [`postcss-nope`]:                         https://github.com/dariopog/postcss-nope
 [`autoprefixer`]:                         https://github.com/postcss/autoprefixer
@@ -803,7 +891,7 @@ See also plugins in modular minifier [`cssnano`].
 [`pixrem`]:                               https://github.com/robwierzbowski/node-pixrem
 [`postcss-fixie`]:                        https://github.com/tivac/fixie
 [`rtlcss`]:                               https://github.com/MohammadYounes/rtlcss
-[`short`]:                                https://github.com/jonathantneal/postcss-short
+[`short`]:                                https://github.com/csstools/postcss-short
 [`lost`]:                                 https://github.com/corysimmons/lost
 [`postcss-text-remove-gap`]:              https://github.com/m18ru/postcss-text-remove-gap
 [`postcss-closest`]:                      https://github.com/m18ru/postcss-closest
@@ -845,6 +933,26 @@ See also plugins in modular minifier [`cssnano`].
 [`postcss-clamp`]:                        https://github.com/polemius/postcss-clamp
 [`postcss-pseudo-is`]:                    https://github.com/IlyaUpyackovich/postcss-pseudo-is
 [`postcss-deep-scopable`]:                https://github.com/litt1e-p/postcss-deep-scopable
-[`postcss-deadcss`]:                https://github.com/DenyVeyten/postcss-deadcss
-[`postcss-flexbox-reset`]:                 https://github.com/AndrejGajdos/postcss-flexbox-reset
-[`postcss-grid-reset`]:                    https://github.com/AndrejGajdos/postcss-grid-reset
+[`postcss-deadcss`]:                      https://github.com/DenyVeyten/postcss-deadcss
+[`postcss-flexbox-reset`]:                https://github.com/AndrejGajdos/postcss-flexbox-reset
+[`postcss-grid-reset`]:                   https://github.com/AndrejGajdos/postcss-grid-reset
+[`webp-in-css`]:                          https://github.com/ai/webp-in-css
+[`avif-in-css`]:                          https://github.com/nucliweb/avif-in-css
+[`postcss-custom-css-units`]:             https://github.com/joe223/postcss-custom-css-units
+[`postcss-khaleesi`]:                     https://github.com/Hugoer/postcss-khaleesi
+[`postcss-blurry-gradient-workaround`]:   https://github.com/strarsis/postcss-blurry-gradient-workaround
+[`postcss-d-ts`]:                         https://github.com/askirmas/postcss-d-ts
+[`postcss-multi-value-display`]:          https://github.com/jake-low/postcss-multi-value-display
+[`postcss-easy-z`]:                       https://github.com/CSSSR/postcss-easy-z
+[`postcss-icon-blender`]:                 https://github.com/icon-blender/postcss-icon-blender
+[`postcss-variable-compress`]:            https://github.com/navanshu/postcss-variable-compress
+[`postcss-unit-processor`]:               https://github.com/hex-ci/postcss-unit-processor
+[`postcss-rem-to-px`]:                    https://github.com/TheDutchCoder/postcss-rem-to-px
+[`postcss-prefix-hover`]:                 https://github.com/larsmunkholm/postcss-prefix-hover
+[`postcss-resolve-urls`]:                 https://github.com/bognarlaszlo/postcss-resolve-urls
+[`postcss-design-tokens`]:                https://github.com/jptaranto/postcss-design-tokens
+[`postcss-pixel-to-remvw`]:               https://github.com/ben-lau/postcss-pixel-to-remvw
+[`@csstools/postcss-design-tokens`]:      https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-design-tokens
+[`postcss-easy-import`]:                  https://github.com/TrySound/postcss-easy-import
+[`postcss-spring-easing`]:                https://github.com/okikio/postcss-spring-easing
+[`postcss-plugin-ignore-file`]:           https://github.com/RiadhAdrani/postcss-plugin-ignore-file

@@ -4,13 +4,22 @@ Uploaders: Pirate Praveen <praveen@debian.org>
 Section: javascript
 Testsuite: autopkgtest-pkg-nodejs
 Priority: optional
-Build-Depends: debhelper-compat (= 12)
- , pkg-js-tools (>= 0.9.20~)
- , node-source-map (>= 0.6.1)
-# for embedded line-column
- , node-isarray
- , node-isobject
-Standards-Version: 4.5.1
+Build-Depends:
+ debhelper-compat (= 13)
+ , dh-sequence-nodejs
+ , node-chalk <!nocheck>
+ , node-cli-cursor <!nocheck>
+ , node-concat-with-sourcemaps <!nocheck>
+ , node-fs-extra <!nocheck>
+ , node-isarray <!nocheck>
+ , node-isobject <!nocheck>
+ , node-picocolors <!nocheck>
+ , node-strip-ansi <!nocheck>
+ , node-typescript <!nocheck>
+ , rollup
+ , ts-node <!nocheck>
+ , uvu <!nocheck>
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/js-team/node-postcss
 Vcs-Git: https://salsa.debian.org/js-team/node-postcss.git
 Homepage: https://postcss.org/
@@ -18,18 +27,20 @@ Rules-Requires-Root: no
 
 Package: node-postcss
 Architecture: all
-Depends: ${misc:Depends}
- , node-source-map (>= 0.6.1)
-# for embedded line-column
+Depends:
+ ${misc:Depends}
  , node-isarray
  , node-isobject
- , nodejs
-Provides: ${nodejs:Provides}
-Breaks: node-css-loader (<< 5.0.1+~cs14.0.5-1~)
+ , node-picocolors
+ , nodejs:any
+Provides:
+ ${nodejs:Provides}
+X-Javascript-Built-Using: ${nodejs:Built-Using}
+Breaks:
+ node-autoprefixer (<< 10.0~)
+ , node-css-loader (<< 5.0.1+~cs14.0.5-1~)
  , node-postcss-modules-extract-imports (<< 3.0.0-1~)
  , node-postcss-modules-values (<< 4.0.0-1~)
- , node-postcss-reporter (<< 7.0~)
- , node-autoprefixer (<< 10.0~)
 Description: Tool for transforming styles with JS plugins
  These plugins can lint your CSS, support variables and mixins, transpile
  future CSS syntax, inline images, and more.

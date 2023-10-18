@@ -1,10 +1,11 @@
 import { v4 as uuid4 } from 'uuid'
 import shortid from 'shortid'
-import rndm from 'rndm'
-import uid from 'uid-safe'
 
-import { nanoid, customAlphabet, random } from '../../'
-import { nanoid as nonSecure } from '../../non-secure'
+import * as nanoidExport from '../../index.browser.js'
+import * as nonSecureExport from '../../non-secure/index.js'
+
+let { nanoid, customAlphabet, random } = nanoidExport
+let nonSecure = nonSecureExport.nanoid
 
 const COUNT = 50 * 1000
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
@@ -12,13 +13,13 @@ const LENGTH = ALPHABET.length
 
 let nanoid2 = customAlphabet(ALPHABET, LENGTH)
 
-function print (number) {
+function print(number) {
   return String(Math.floor(number * 100))
     .replace(/\d{6}$/, ',$&')
     .replace(/\d{3}$/, ',$&')
 }
 
-function printDistr (title, fn) {
+function printDistr(title, fn) {
   let data = calcDistr(title, fn)
   let keys = Object.keys(data.chars)
   let length = keys.length
@@ -41,7 +42,7 @@ function printDistr (title, fn) {
   </section>`
 }
 
-function calcDistr (title, fn) {
+function calcDistr(title, fn) {
   let chars = {}
 
   let ids = []
@@ -74,10 +75,8 @@ let tasks = [
     }),
   () => printDistr('nanoid', () => nanoid()),
   () => printDistr('nanoid2', () => nanoid2()),
-  () => printDistr('uid.sync', () => uid.sync(21)),
   () => printDistr('uuid/v4', () => uuid4()),
   () => printDistr('shortid', () => shortid()),
-  () => printDistr('rndm', () => rndm()),
   () => printDistr('nanoid/non-secure', () => nonSecure()),
   () =>
     printDistr('random % alphabet', () => {
@@ -85,7 +84,7 @@ let tasks = [
     })
 ]
 
-function run () {
+function run() {
   if (tasks.length === 0) return
   let task = tasks.shift()
   task()

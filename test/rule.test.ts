@@ -1,79 +1,81 @@
-import { Rule, parse } from '../lib/postcss.js'
+import { test } from 'uvu'
+import { equal, is } from 'uvu/assert'
 
-it('initializes with properties', () => {
+import { parse, Rule } from '../lib/postcss.js'
+
+test('initializes with properties', () => {
   let rule = new Rule({ selector: 'a' })
-  expect(rule.selector).toEqual('a')
+  is(rule.selector, 'a')
 })
 
-it('returns array in selectors', () => {
+test('returns array in selectors', () => {
   let rule = new Rule({ selector: 'a,b' })
-  expect(rule.selectors).toEqual(['a', 'b'])
+  equal(rule.selectors, ['a', 'b'])
 })
 
-it('trims selectors', () => {
+test('trims selectors', () => {
   let rule = new Rule({ selector: '.a\n, .b  , .c' })
-  expect(rule.selectors).toEqual(['.a', '.b', '.c'])
+  equal(rule.selectors, ['.a', '.b', '.c'])
 })
 
-it('is smart about selectors commas', () => {
+test('is smart about selectors commas', () => {
   let rule = new Rule({
     selector: "[foo='a, b'], a:-moz-any(:focus, [href*=','])"
   })
-  expect(rule.selectors).toEqual([
-    "[foo='a, b']",
-    "a:-moz-any(:focus, [href*=','])"
-  ])
+  equal(rule.selectors, ["[foo='a, b']", "a:-moz-any(:focus, [href*=','])"])
 })
 
-it('receive array in selectors', () => {
+test('receive array in selectors', () => {
   let rule = new Rule({ selector: 'i, b' })
   rule.selectors = ['em', 'strong']
-  expect(rule.selector).toEqual('em, strong')
+  is(rule.selector, 'em, strong')
 })
 
-it('saves separator in selectors', () => {
+test('saves separator in selectors', () => {
   let rule = new Rule({ selector: 'i,\nb' })
   rule.selectors = ['em', 'strong']
-  expect(rule.selector).toEqual('em,\nstrong')
+  is(rule.selector, 'em,\nstrong')
 })
 
-it('uses between to detect separator in selectors', () => {
-  let rule = new Rule({ selector: 'b', raws: { between: '' } })
+test('uses between to detect separator in selectors', () => {
+  let rule = new Rule({ raws: { between: '' }, selector: 'b' })
   rule.selectors = ['b', 'strong']
-  expect(rule.selector).toEqual('b,strong')
+  is(rule.selector, 'b,strong')
 })
 
-it('uses space in separator be default in selectors', () => {
+test('uses space in separator be default in selectors', () => {
   let rule = new Rule({ selector: 'b' })
   rule.selectors = ['b', 'strong']
-  expect(rule.selector).toEqual('b, strong')
+  is(rule.selector, 'b, strong')
 })
 
-it('selectors works in constructor', () => {
+test('selectors works in constructor', () => {
   let rule = new Rule({ selectors: ['a', 'b'] })
-  expect(rule.selector).toEqual('a, b')
+  is(rule.selector, 'a, b')
 })
 
-it('inserts default spaces', () => {
+test('inserts default spaces', () => {
   let rule = new Rule({ selector: 'a' })
-  expect(rule.toString()).toEqual('a {}')
+  is(rule.toString(), 'a {}')
   rule.append({ prop: 'color', value: 'black' })
-  expect(rule.toString()).toEqual('a {\n    color: black\n}')
+  is(rule.toString(), 'a {\n    color: black\n}')
 })
 
-it('clones spaces from another rule', () => {
+test('clones spaces from another rule', () => {
   let root = parse('b{\n  }')
   let rule = new Rule({ selector: 'em' })
   root.append(rule)
-  expect(root.toString()).toEqual('b{\n  }\nem{\n  }')
+  is(root.toString(), 'b{\n  }\nem{\n  }')
 })
 
-it('uses different spaces for empty rules', () => {
+test('uses different spaces for empty rules', () => {
   let root = parse('a{}\nb{\n a:1\n}')
   let rule = new Rule({ selector: 'em' })
   root.append(rule)
-  expect(root.toString()).toEqual('a{}\nb{\n a:1\n}\nem{}')
+  is(root.toString(), 'a{}\nb{\n a:1\n}\nem{}')
 
   rule.append({ prop: 'top', value: '0' })
-  expect(root.toString()).toEqual('a{}\nb{\n a:1\n}\nem{\n top:0\n}')
+  is(root.toString(), 'a{}\nb{\n a:1\n}\nem{\n top:0\n}')
 })
+
+test.run()

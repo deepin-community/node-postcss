@@ -1,6 +1,74 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.2
+* Added [link](https://github.com/sponsors/ai) to Github Sponsors.
+
+## 4.0.1
+* Reduced npm package size (by @HiChen404).
+
+## 4.0
+* Removed CommonJS support. Nano ID 4 will work only with ESM applications.
+  We will support 3.x branch with CommonJS for users who can’t migrate to ESM.
+* Removed Node.js 10 and Node.js 12 support.
+* Reduced npm package size.
+
+## 3.3.4
+* Fixed `--help` in CLI (by @Lete114).
+
+## 3.3.3
+* Reduced size (by Anton Khlynovskiy).
+
+## 3.3.2
+* Fixed `enhanced-resolve` support.
+
+## 3.3.1
+* Reduced package size.
+
+## 3.3
+* Added `size` argument to function from `customAlphabet` (by Stefan Sundin).
+
+## 3.2
+* Added `--size` and `--alphabet` arguments to binary (by Vitaly Baev).
+
+## 3.1.32
+* Reduced `async` exports size (by Artyom Arutyunyan).
+* Moved from Jest to uvu (by Vitaly Baev).
+
+## 3.1.31
+* Fixed collision vulnerability on object in `size` (by Artyom Arutyunyan).
+
+## 3.1.30
+* Reduced size for project with `brotli` compression (by Anton Khlynovskiy).
+
+## 3.1.29
+* Reduced npm package size.
+
+## 3.1.28
+* Reduced npm package size.
+
+## 3.1.27
+* Cleaned `dependencies` from development tools.
+
+## 3.1.26
+* Improved performance (by Eitan Har-Shoshanim).
+* Reduced npm package size.
+
+## 3.1.25
+* Fixed `browserify` support.
+
+## 3.1.24
+* Fixed `browserify` support (by Artur Paikin).
+
+## 3.1.23
+* Fixed `esbuild` support.
+
+## 3.1.22
+* Added `default` and `browser.default` to `package.exports`.
+
+## 3.1.21
+* Reduced npm package size.
+
 ## 3.1.20
 * Fix ES modules support.
 

@@ -1,0 +1,34 @@
+{
+  "name": "postcss-parser-tests",
+  "version": "8.8.0",
+  "description": "Base tests for every PostCSS CSS parser",
+  "keywords": [
+    "postcss",
+    "parser",
+    "css",
+    "tests"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "repository": "postcss/postcss-parser-tests",
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/postcss/"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ai"
+    }
+  ],
+  "dependencies": {
+    "picocolors": "^1.0.0"
+  },
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.mjs"
+    },
+    "./package.json": "./package.json"
+  }
+}

@@ -1,0 +1,28 @@
+Description: export commonjs files for nanoid
+Author: Yadd <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2022-07-04
+
+--- a/nanoid/package.json
++++ b/nanoid/package.json
+@@ -30,13 +30,18 @@
+   "exports": {
+     ".": {
+       "browser": "./index.browser.js",
+-      "default": "./index.js"
++      "require": "./index.cjs",
++      "import": "./index.js"
+     },
+     "./async": {
+       "browser": "./async/index.browser.js",
++      "require": "./async/index.cjs",
+       "default": "./async/index.js"
+     },
+-    "./non-secure": "./non-secure/index.js",
++    "./non-secure": {
++      "require": "./non-secure/index.cjs",
++      "import": "./non-secure/index.js"
++    },
+     "./package.json": "./package.json"
+   },
+   "browser": {

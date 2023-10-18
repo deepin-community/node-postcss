@@ -2,4 +2,8 @@
 # -*- makefile -*-
 
 %:
-	dh $@ --with nodejs
+	dh $@
+
+override_dh_fixperms:
+	dh_fixperms
+	chmod +x debian/node-postcss/usr/share/nodejs/nanoid/bin/nanoid.js
