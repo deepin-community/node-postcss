@@ -1,6 +1,64 @@
 # Change Log
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.4.49
+* Fixed custom syntax without `source.offset` (by @romainmenke).
+
+## 8.4.48
+* Fixed position calculation in error/warnings methods (by @romainmenke).
+
+## 8.4.47
+* Removed debug code.
+
+## 8.4.46
+* Fixed `Cannot read properties of undefined (reading 'before')`.
+
+## 8.4.45
+* Removed unnecessary fix which could lead to infinite loop.
+
+## 8.4.44
+* Another way to fix `markClean is not a function` error.
+
+## 8.4.43
+* Fixed `markClean is not a function` error.
+
+## 8.4.42
+* Fixed CSS syntax error on long minified files (by @varpstar).
+
+## 8.4.41
+* Fixed types (by @nex3 and @querkmachine).
+* Cleaned up RegExps (by @bluwy).
+
+## 8.4.40
+* Moved to getter/setter in nodes types to help Sass team (by @nex3).
+
+## 8.4.39
+* Fixed `CssSyntaxError` types (by @romainmenke).
+
+## 8.4.38
+* Fixed `endIndex: 0` in errors and warnings (by @romainmenke).
+
+## 8.4.37
+* Fixed `original.column are not numbers` error in another case.
+
+## 8.4.36
+* Fixed `original.column are not numbers` error on broken previous source map.
+
+## 8.4.35
+* Avoid `!` in `node.parent.nodes` type.
+* Allow to pass `undefined` to node adding method to simplify types.
+
+## 8.4.34
+* Fixed `AtRule#nodes` type (by Tim Weißenfels).
+* Cleaned up code (by Dmitry Kirillov).
+
+## 8.4.33
+* Fixed `NoWorkResult` behavior difference with normal mode (by Romain Menke).
+* Fixed `NoWorkResult` usage conditions (by @ahmdammarr).
+
+## 8.4.32
+* Fixed `postcss().process()` types (by Andrew Ferreira).
+
 ## 8.4.31
 * Fixed `\r` parsing to fix CVE-2023-44270.
 

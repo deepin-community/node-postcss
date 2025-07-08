@@ -1,6 +1,6 @@
 {
   "name": "postcss",
-  "version": "8.4.31",
+  "version": "8.4.49",
   "description": "Tool for transforming styles with JS plugins",
   "engines": {
     "node": "^10 || ^12 || >=14"
@@ -53,6 +53,7 @@
     "transpiler"
   ],
   "scripts": {
+    "test:lint": "eslint .",
     "test:types": "check-dts",
     "test:version": "node ./test/version.js",
     "test:coverage": "c8 pnpm unit",
@@ -84,35 +85,27 @@
     "url": "https://github.com/postcss/postcss/issues"
   },
   "dependencies": {
-    "nanoid": "^3.3.6",
-    "picocolors": "^1.0.0",
-    "source-map-js": "^1.0.2"
+    "nanoid": "^3.3.7",
+    "picocolors": "^1.1.1",
+    "source-map-js": "^1.2.1"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^52.0.1",
-    "@size-limit/preset-small-lib": "^9.0.0",
-    "@types/node": "^20.7.1",
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
-    "c8": "^8.0.1",
-    "check-dts": "^0.7.2",
-    "clean-publish": "^4.2.0",
+    "@logux/eslint-config": "^53.4.2",
+    "@size-limit/preset-small-lib": "^11.1.6",
+    "@types/node": "^22.9.0",
+    "c8": "^10.1.2",
+    "check-dts": "^0.8.2",
+    "clean-publish": "^5.1.0",
     "concat-with-sourcemaps": "^1.1.0",
-    "eslint": "^8.50.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-n": "^16.1.0",
-    "eslint-plugin-perfectionist": "^2.1.0",
-    "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.1.1",
+    "eslint": "^9.14.0",
     "nanodelay": "^1.0.8",
     "nanospy": "^1.0.0",
     "postcss-parser-tests": "^8.8.0",
-    "simple-git-hooks": "^2.9.0",
-    "size-limit": "^9.0.0",
+    "simple-git-hooks": "^2.11.1",
+    "size-limit": "^11.1.6",
     "strip-ansi": "^6.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
     "uvu": "^0.5.6"
   },
   "c8": {
@@ -145,43 +138,8 @@
   "size-limit": [
     {
       "path": "lib/postcss.js",
-      "limit": "17 KB"
+      "limit": "15 KB"
     }
-  ],
-  "eslintConfig": {
-    "extends": "@logux/eslint-config/ts",
-    "rules": {
-      "@typescript-eslint/consistent-type-imports": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "node-import/prefer-node-protocol": "off",
-      "consistent-return": "off",
-      "global-require": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.d.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/no-redeclare": "off"
-        }
-      },
-      {
-        "files": [
-          "*.test.*"
-        ],
-        "rules": {
-          "@typescript-eslint/no-unused-expressions": "off",
-          "no-unused-expressions": "off",
-          "no-console": "off",
-          "func-style": "off"
-        }
-      }
-    ]
-  },
-  "eslintIgnore": [
-    "docs/api/assets/",
-    "errors.ts"
   ],
   "clean-publish": {
     "cleanDocs": true

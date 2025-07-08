@@ -13,7 +13,7 @@ and JetBrains. The [Autoprefixer] and [Stylelint] PostCSS plugins is one of
 
 ---
 
-<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  Made in <b><a href="https://evilmartians.com/?utm_source=postcss&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  Made at <b><a href="https://evilmartians.com/devtools?utm_source=postcss&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
 
 ---
 
@@ -31,11 +31,10 @@ PostCSS needs your support. We are accepting donations
 
 <a href="https://tailwindcss.com/">
   <img src="https://refactoringui.nyc3.cdn.digitaloceanspaces.com/tailwind-logo.svg"
-       alt="Sponsored by Tailwind CSS" width="213" height="50">
-</a>      <a href="https://themeisle.com/">
+       alt="Sponsored by Tailwind CSS" width="213" height="50"></a>      
+<a href="https://themeisle.com/">
   <img src="https://mllj2j8xvfl0.i.optimole.com/d0cOXWA.3970~373ad/w:auto/h:auto/q:90/https://s30246.pcdn.co/wp-content/uploads/2019/03/logo.png"
-       alt="Sponsored by ThemeIsle" width="171" height="56">
-</a>
+       alt="Sponsored by ThemeIsle" width="171" height="56"></a>
 
 
 ## Plugins
@@ -46,14 +45,12 @@ This API can then be used by [plugins] to do a lot of useful things,
 e.g., to find errors automatically, or to insert vendor prefixes.
 
 Currently, PostCSS has more than 200 plugins. You can find all of the plugins
-in the [plugins list] or in the [searchable catalog]. Below is a list
-of our favorite plugins — the best demonstrations of what can be built
-on top of PostCSS.
+in the [plugins list]. Below is a list of our favorite plugins —
+the best demonstrations of what can be built on top of PostCSS.
 
 If you have any new ideas, [PostCSS plugin development] is really easy.
 
-[searchable catalog]: https://www.postcss.parts/
-[plugins list]:       https://github.com/postcss/postcss/blob/main/docs/plugins.md
+[plugins list]: https://github.com/postcss/postcss/blob/main/docs/plugins.md
 
 
 ### Solve Global CSS Problem
@@ -131,7 +128,7 @@ If you have any new ideas, [PostCSS plugin development] is really easy.
 [`colorguard`]:                 https://github.com/SlexAxton/css-colorguard
 [`stylelint`]:                  https://github.com/stylelint/stylelint
 [`stylefmt`]:                   https://github.com/morishitter/stylefmt
-[`cssnano`]:                    https://cssnano.co/
+[`cssnano`]:                    https://cssnano.github.io/cssnano/
 [`postcss-nested`]:             https://github.com/postcss/postcss-nested
 [`doiuse`]:                     https://github.com/anandthakker/doiuse
 [`rtlcss`]:                     https://github.com/MohammadYounes/rtlcss
@@ -202,7 +199,7 @@ You can start using PostCSS in just two steps:
 1. Find and add PostCSS extensions for your build tool.
 2. [Select plugins] and add them to your PostCSS process.
 
-[Select plugins]: https://www.postcss.parts/
+[Select plugins]: https://postcss.org/docs/postcss-plugins
 
 
 ### CSS-in-JS

@@ -1,37 +1,27 @@
 #!/usr/bin/env node
 
-import { uid as uidSecure } from 'uid/secure'
 import { v4 as lukeed4 } from '@lukeed/uuid'
 import { v4 as napiV4 } from '@napi-rs/uuid'
-import { v4 as uuid4 } from 'uuid'
-import benchmark from 'benchmark'
-import shortid from 'shortid'
-import uidSafe from 'uid-safe'
-import { uid } from 'uid'
-import crypto from 'crypto'
-import pico from 'picocolors'
+import crypto from 'node:crypto'
+import { styleText } from 'node:util'
 import rndm from 'rndm'
 import srs from 'secure-random-string'
+import shortid from 'shortid'
+import { Bench } from 'tinybench'
+import { uid } from 'uid'
+import uidSafe from 'uid-safe'
+import { uid as uidSecure } from 'uid/secure'
+import { v4 as uuid4 } from 'uuid'
 
-import {
-  customAlphabet as aCustomAlphabet,
-  nanoid as aNanoid
-} from '../async/index.js'
-import { nanoid, customAlphabet } from '../index.js'
+import { nanoid as browser } from '../index.browser.js'
+import { customAlphabet, nanoid } from '../index.js'
 import { nanoid as nonSecure } from '../non-secure/index.js'
 
-let suite = new benchmark.Suite()
+let bench = new Bench()
 
 let nanoid2 = customAlphabet('1234567890abcdef-', 10)
-let asyncNanoid2 = aCustomAlphabet('1234567890abcdef-', 10)
 
-function formatNumber(number) {
-  return String(number)
-    .replace(/\d{3}$/, ',$&')
-    .replace(/^(\d|\d\d)(\d{3},)/, '$1,$2')
-}
-
-suite
+bench
   .add('crypto.randomUUID', () => {
     crypto.randomUUID()
   })
@@ -53,6 +43,9 @@ suite
   .add('customAlphabet', () => {
     nanoid2()
   })
+  .add('nanoid for browser', () => {
+    browser()
+  })
   .add('secure-random-string', () => {
     srs()
   })
@@ -61,38 +54,6 @@ suite
   })
   .add('shortid', () => {
     shortid()
-  })
-  .add('nanoid/async', {
-    defer: true,
-    fn(defer) {
-      aNanoid().then(() => {
-        defer.resolve()
-      })
-    }
-  })
-  .add('async customAlphabet', {
-    defer: true,
-    fn(defer) {
-      asyncNanoid2().then(() => {
-        defer.resolve()
-      })
-    }
-  })
-  .add('async secure-random-string', {
-    defer: true,
-    fn(defer) {
-      srs(() => {
-        defer.resolve()
-      })
-    }
-  })
-  .add('uid-safe', {
-    defer: true,
-    fn(defer) {
-      uidSafe(14).then(() => {
-        defer.resolve()
-      })
-    }
   })
   .add('uid', () => {
     uid(32)
@@ -103,14 +64,23 @@ suite
   .add('rndm', () => {
     rndm(21)
   })
-  .on('cycle', event => {
-    let name = event.target.name.padEnd('async secure-random-string'.length)
-    let hz = formatNumber(event.target.hz.toFixed(0)).padStart(10)
-    if (event.target.name === 'nanoid/async') {
-      name = '\nAsync:\n' + name
-    } else if (event.target.name === 'uid') {
-      name = '\nNon-secure:\n' + name
-    }
-    process.stdout.write(`${name}${pico.bold(hz)}${pico.dim(' ops/sec')}\n`)
-  })
-  .run()
+
+let longestTask = bench.tasks.reduce((maxLength, task) => {
+  return Math.max(maxLength, task.name.length)
+}, 0)
+
+bench.addEventListener('cycle', ({ task }) => {
+  let hz = (+task.result.hz.toFixed(0)).toLocaleString('en-US').padStart(14)
+
+  let name = task.name.padEnd(longestTask)
+  let value = styleText('bold', hz)
+  let units = styleText('dim', 'ops/sec')
+
+  if (task.name === 'uid') {
+    process.stdout.write('\nNon-secure:\n')
+  }
+
+  process.stdout.write(`${name}${value} ${units}\n`)
+})
+
+await bench.run({ warmup: true })

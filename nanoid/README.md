@@ -10,50 +10,50 @@ A tiny, secure, URL-friendly, unique string ID generator for JavaScript.
 > “An amazing level of senseless perfectionism,
 > which is simply impossible not to respect.”
 
-* **Small.** 130 bytes (minified and gzipped). No dependencies.
+* **Small.** 118 bytes (minified and brotlied). No dependencies.
   [Size Limit] controls the size.
 * **Safe.** It uses hardware random generator. Can be used in clusters.
 * **Short IDs.** It uses a larger alphabet than UUID (`A-Za-z0-9_-`).
   So ID size was reduced from 36 to 21 symbols.
 * **Portable.** Nano ID was ported
-  to [20 programming languages](./README.md#other-programming-languages).
+  to over [20 programming languages](./README.md#other-programming-languages).
 
 ```js
 import { nanoid } from 'nanoid'
 model.id = nanoid() //=> "V1StGXR8_Z5jdHi6B-myT"
 ```
 
-Supports modern browsers, IE [with Babel], Node.js and React Native.
+---
+
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  Made at <b><a href="https://evilmartians.com/devtools?utm_source=nanoid&utm_campaign=devtools-button&utm_medium=github">Evil Martians</a></b>, product consulting for <b>developer tools</b>.
+
+---
 
 [online tool]: https://gitpod.io/#https://github.com/ai/nanoid/
 [with Babel]:  https://developer.epages.com/blog/coding/how-to-transpile-node-modules-with-babel-and-webpack-in-a-monorepo/
 [Size Limit]:  https://github.com/ai/size-limit
 
-<a href="https://evilmartians.com/?utm_source=nanoid">
-  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-       alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
 
 ## Table of Contents
 
-* [Comparison with UUID](#comparison-with-uuid)
-* [Benchmark](#benchmark)
-* [Security](#security)
-* [API](#api)
-  * [Blocking](#blocking)
-  * [Async](#async)
-  * [Non-Secure](#non-secure)
-  * [Custom Alphabet or Size](#custom-alphabet-or-size)
-  * [Custom Random Bytes Generator](#custom-random-bytes-generator)
-* [Usage](#usage)
-  * [React](#react)
-  * [React Native](#react-native)
-  * [PouchDB and CouchDB](#pouchdb-and-couchdb)
-  * [Web Workers](#web-workers)
-  * [Jest](#jest)
-  * [CLI](#cli)
-  * [Other Programming Languages](#other-programming-languages)
-* [Tools](#tools)
+- [Table of Contents](#table-of-contents)
+- [Comparison with UUID](#comparison-with-uuid)
+- [Benchmark](#benchmark)
+- [Security](#security)
+- [Install](#install)
+- [API](#api)
+  - [Blocking](#blocking)
+  - [Non-Secure](#non-secure)
+  - [Custom Alphabet or Size](#custom-alphabet-or-size)
+  - [Custom Random Bytes Generator](#custom-random-bytes-generator)
+- [Usage](#usage)
+  - [React](#react)
+  - [React Native](#react-native)
+  - [PouchDB and CouchDB](#pouchdb-and-couchdb)
+  - [Web Workers](#web-workers)
+  - [CLI](#cli)
+  - [Other Programming Languages](#other-programming-languages)
+- [Tools](#tools)
 
 
 ## Comparison with UUID
@@ -77,30 +77,25 @@ There are two main differences between Nano ID and UUID v4:
 
 ```rust
 $ node ./test/benchmark.js
-crypto.randomUUID         21,119,429 ops/sec
-uuid v4                   20,368,447 ops/sec
-@napi-rs/uuid             11,493,890 ops/sec
-uid/secure                 8,409,962 ops/sec
-@lukeed/uuid               6,871,405 ops/sec
-nanoid                     5,652,148 ops/sec
-customAlphabet             3,565,656 ops/sec
-secure-random-string         394,201 ops/sec
-uid-safe.sync                393,176 ops/sec
-shortid                       49,916 ops/sec
-
-Async:
-nanoid/async                 135,260 ops/sec
-async customAlphabet         136,059 ops/sec
-async secure-random-string   135,213 ops/sec
-uid-safe                     119,587 ops/sec
+crypto.randomUUID          7,619,041 ops/sec
+uuid v4                    7,436,626 ops/sec
+@napi-rs/uuid              4,730,614 ops/sec
+uid/secure                 4,729,185 ops/sec
+@lukeed/uuid               4,015,673 ops/sec
+nanoid                     3,693,964 ops/sec
+customAlphabet             2,799,255 ops/sec
+nanoid for browser           380,915 ops/sec
+secure-random-string         362,316 ops/sec
+uid-safe.sync                354,234 ops/sec
+shortid                       38,808 ops/sec
 
 Non-secure:
-uid                       58,860,241 ops/sec
-nanoid/non-secure          2,744,615 ops/sec
-rndm                       2,718,063 ops/sec
+uid                       11,872,105 ops/sec
+nanoid/non-secure          2,226,483 ops/sec
+rndm                       2,308,044 ops/sec
 ```
 
-Test configuration: ThinkPad X1 Carbon Gen 9, Fedora 36, Node.js 18.9.
+Test configuration: Framework 13 7840U, Fedora 39, Node.js 21.6.
 
 
 ## Security
@@ -134,14 +129,21 @@ Test configuration: ThinkPad X1 Carbon Gen 9, Fedora 36, Node.js 18.9.
 ## Install
 
 ```bash
-npm install --save nanoid
+npm install nanoid
 ```
 
-Nano ID 4 works only with ESM projects in tests or Node.js scripts.
-For CommonJS you need Nano ID 3.x (we still support it):
+Nano ID 5 works only with ESM projects, in tests or Node.js scripts.
+For CommonJS you need to use latest Node.js 20 or 22
+with `--experimental-require-module`:
 
 ```bash
-npm install --save nanoid@3
+node --experimental-require-module app.js
+```
+
+Or you can use Nano ID 3.x (we still support it):
+
+```bash
+npm install nanoid@3
 ```
 
 For quick hacks, you can load Nano ID from CDN. Though, it is not recommended
@@ -151,17 +153,10 @@ to be used in production because of the lower loading performance.
 import { nanoid } from 'https://cdn.jsdelivr.net/npm/nanoid/nanoid.js'
 ```
 
-Nano ID provides ES modules. You do not need to do anything to use Nano ID
-as ESM in webpack, Rollup, Parcel, or Node.js.
-
-```js
-import { nanoid } from 'nanoid'
-```
-
 
 ## API
 
-Nano ID has 3 APIs: normal (blocking), asynchronous, and non-secure.
+Nano ID has 2 APIs: normal and non-secure.
 
 By default, Nano ID uses URL-friendly symbols (`A-Za-z0-9_-`) and returns an ID
 with 21 characters (to have a collision probability similar to UUID v4).
@@ -195,36 +190,6 @@ or a [random generator](#custom-random-bytes-generator).
 [ID collision probability]: https://zelark.github.io/nano-id-cc/
 
 
-### Async
-
-To generate hardware random bytes, CPU collects electromagnetic noise.
-For most cases, entropy will be already collected.
-
-In the synchronous API during the noise collection, the CPU is busy and
-cannot do anything useful (for instance, process another HTTP request).
-
-Using the asynchronous API of Nano ID, another code can run during
-the entropy collection.
-
-```js
-import { nanoid } from 'nanoid/async'
-
-async function createUser() {
-  user.id = await nanoid()
-}
-```
-
-Read more about entropy collection in [`crypto.randomBytes`] docs.
-
-Unfortunately, you will lose Web Crypto API advantages in a browser
-if you use the asynchronous API. So, currently, in the browser, you are limited
-with either security (`nanoid`), asynchronous behavior (`nanoid/async`),
-or non-secure behavior (`nanoid/non-secure`) that will be explained
-in the next part of the documentation.
-
-[`crypto.randomBytes`]: https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback
-
-
 ### Non-Secure
 
 By default, Nano ID uses hardware random bytes generation for security
@@ -246,14 +211,6 @@ with your own alphabet and ID size.
 import { customAlphabet } from 'nanoid'
 const nanoid = customAlphabet('1234567890abcdef', 10)
 model.id = nanoid() //=> "4f90d13a42"
-```
-
-```js
-import { customAlphabet } from 'nanoid/async'
-const nanoid = customAlphabet('1234567890abcdef', 10)
-async function createUser() {
-  user.id = await nanoid()
-}
 ```
 
 ```js
@@ -310,8 +267,6 @@ you can get the default alphabet using the `urlAlphabet`.
 const { customRandom, urlAlphabet } = require('nanoid')
 const nanoid = customRandom(urlAlphabet, 10, random)
 ```
-
-Asynchronous and non-secure APIs are not available for `customRandom`.
 
 Note, that between Nano ID versions we may change random generator
 call sequence. If you are using seed-based generators, we do not guarantee
@@ -417,22 +372,6 @@ nanoid() //=> "Uakgb_J5m9g-0JDMbcJqLJ"
 Note: non-secure IDs are more prone to collision attacks.
 
 
-### Jest
-
-Jest test runner with `jest-environment-jsdom` will use browser’s version
-of Nano ID. You will need polyfill for Web Crypto API.
-
-```js
-import { randomFillSync } from 'crypto'
-
-window.crypto = {
-  getRandomValues(buffer) {
-    return randomFillSync(buffer)
-  }
-}
-```
-
-
 ### CLI
 
 You can get unique ID in terminal by calling `npx nanoid`. You need only
@@ -459,6 +398,7 @@ $ npx nanoid --alphabet abc --size 15
 bccbcabaabaccab
 ```
 
+
 ### Other Programming Languages
 
 Nano ID was ported to many languages. You can use these ports to have
@@ -471,18 +411,21 @@ the same ID generator on the client and server side.
 * [Crystal](https://github.com/mamantoha/nanoid.cr)
 * [Dart & Flutter](https://github.com/pd4d10/nanoid-dart)
 * [Deno](https://github.com/ianfabs/nanoid)
-* [Go](https://github.com/matoous/go-nanoid)
 * [Elixir](https://github.com/railsmechanic/nanoid)
+* [Go](https://github.com/matoous/go-nanoid)
 * [Haskell](https://github.com/MichelBoucey/NanoID)
 * [Haxe](https://github.com/flashultra/uuid)
 * [Janet](https://sr.ht/~statianzo/janet-nanoid/)
-* [Java](https://github.com/aventrix/jnanoid)
+* [Java](https://github.com/Soundicly/jnanoid-enhanced)
+* [Kotlin](https://github.com/viascom/nanoid-kotlin)
+* [MySQL/MariaDB](https://github.com/viascom/nanoid-mysql-mariadb)
 * [Nim](https://github.com/icyphox/nanoid.nim)
 * [OCaml](https://github.com/routineco/ocaml-nanoid)
 * [Perl](https://github.com/tkzwtks/Nanoid-perl)
 * [PHP](https://github.com/hidehalo/nanoid-php)
-* [Python](https://github.com/puyuan/py-nanoid)
+* Python [native](https://github.com/puyuan/py-nanoid) implementation
   with [dictionaries](https://pypi.org/project/nanoid-dictionary)
+  and [fast](https://github.com/oliverlambson/fastnanoid) implementation (written in Rust)
 * Postgres [Extension](https://github.com/spa5k/uids-postgres)
   and [Native Function](https://github.com/viascom/nanoid-postgres)
 * [R](https://github.com/hrbrmstr/nanoid) (with dictionaries)

@@ -1,6 +1,8 @@
 // This file replaces `index.js` in bundlers like webpack or Rollup,
 // according to `browser` config in `package.json`.
 
+import { urlAlphabet as scopedUrlAlphabet } from './url-alphabet/index.js'
+
 export { urlAlphabet } from './url-alphabet/index.js'
 
 export let random = bytes => crypto.getRandomValues(new Uint8Array(bytes))
@@ -11,7 +13,7 @@ export let customRandom = (alphabet, defaultSize, getRandom) => {
   // `2^31 - 1` number, which exceeds the alphabet size.
   // For example, the bitmask for the alphabet size 30 is 31 (00011111).
   // `Math.clz32` is not used, because it is not available in browsers.
-  let mask = (2 << (Math.log(alphabet.length - 1) / Math.LN2)) - 1
+  let mask = (2 << Math.log2(alphabet.length - 1)) - 1
   // Though, the bitmask solution is not perfect since the bytes exceeding
   // the alphabet size are refused. Therefore, to reliably generate the ID,
   // the random bytes redundancy has to be satisfied.
@@ -34,38 +36,27 @@ export let customRandom = (alphabet, defaultSize, getRandom) => {
     while (true) {
       let bytes = getRandom(step)
       // A compact alternative for `for (var i = 0; i < step; i++)`.
-      let j = step
+      let j = step | 0
       while (j--) {
         // Adding `|| ''` refuses a random byte that exceeds the alphabet size.
         id += alphabet[bytes[j] & mask] || ''
-        if (id.length === size) return id
+        if (id.length >= size) return id
       }
     }
   }
 }
 
 export let customAlphabet = (alphabet, size = 21) =>
-  customRandom(alphabet, size, random)
+  customRandom(alphabet, size | 0, random)
 
-export let nanoid = (size = 21) =>
-  crypto.getRandomValues(new Uint8Array(size)).reduce((id, byte) => {
-    // It is incorrect to use bytes exceeding the alphabet size.
-    // The following mask reduces the random byte in the 0-255 value
-    // range to the 0-63 value range. Therefore, adding hacks, such
-    // as empty string fallback or magic numbers, is unneccessary because
-    // the bitmask trims bytes down to the alphabet size.
-    byte &= 63
-    if (byte < 36) {
-      // `0-9a-z`
-      id += byte.toString(36)
-    } else if (byte < 62) {
-      // `A-Z`
-      id += (byte - 26).toString(36).toUpperCase()
-    } else if (byte > 62) {
-      id += '-'
-    } else {
-      id += '_'
-    }
-    return id
-  }, '')
-
+export let nanoid = (size = 21) => {
+  let id = ''
+  let bytes = crypto.getRandomValues(new Uint8Array((size |= 0)))
+  while (size--) {
+    // Using the bitwise AND operator to "cap" the value of
+    // the random byte from 255 to 63, in that way we can make sure
+    // that the value will be a valid index for the "chars" string.
+    id += scopedUrlAlphabet[bytes[size] & 63]
+  }
+  return id
+}

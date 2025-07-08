@@ -1,5 +1,44 @@
 # Change Log
 
+## 1.2.1
+
+* Fix TS2306 “not a module” errors in type definitions ([#16](https://github.com/7rulnik/source-map-js/pull/16)) [@andersk](https://github.com/andersk)
+
+* Ensure null source is respected ([#26](https://github.com/7rulnik/source-map-js/pull/26)) [@dragomirtitian](https://github.com/dragomirtitian)
+
+* Improve ts declarations to be null-safe ([#27](https://github.com/7rulnik/source-map-js/pull/27)) [@dragomirtitian](https://github.com/dragomirtitian)
+
+## 1.2.0
+
+Allow to pass options to `SourceMapGenerator` using `SourceMapGenerator.fromSourceMap` as second argument
+
+```js
+var generator = sourceMap.SourceMapGenerator.fromSourceMap(new SourceMapConsumer(), {
+  ignoreInvalidMapping: true,
+});
+```
+
+* Add generator options to fromSourceMap ([#22](https://github.com/7rulnik/source-map-js/pull/22)) [@ai](https://github.com/ai)
+
+## 1.1.0
+
+Add `ignoreInvalidMapping` option to `SourceMapGenerator`. If enabled, source-map-js will not throw an error on the incorrect previous source map. Instead, it will print warnings and ignore broken mappings.
+
+```js
+var generator = new sourceMap.SourceMapGenerator({
+  file: "my-generated-javascript-file.js",
+  sourceRoot: "http://example.com/app/js/",
+  ignoreInvalidMapping: true,
+});
+```
+
+* Do not throw an error since broken prev map is popular issue ([#20](https://github.com/7rulnik/source-map-js/pull/20)) [@ai](https://github.com/ai)
+* Add ignoreInvalidMapping option ([#21](https://github.com/7rulnik/source-map-js/pull/21)) [@7rulnik](https://github.com/7rulnik)
+
+## 1.0.3
+
+* Use sourceContents when non-null, even if it's an empty string ([#17](https://github.com/7rulnik/source-map-js/pull/17)) [@bshepherdson](https://github.com/bshepherdson)
+
 ## 1.0.2
 
 * Add types for path imports ([#13](https://github.com/7rulnik/source-map-js/pull/13)) [@TrySound](https://github.com/TrySound)
