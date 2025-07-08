@@ -1,6 +1,38 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 5.0.9
+* Fixed a way to brake Nano ID by passing non-integer size (by @myndzi).
+
+## 5.0.8
+* Reduced `customAlphabet` size (by @kirillgroshkov).
+
+## 5.0.7
+* Fixed Parcel support (by @WilhelmYakunin).
+
+## 5.0.6
+* Fixed React Native support.
+
+## 5.0.5
+* Make browser’s version faster by increasing size a little (by Samuel Elgozi).
+
+## 5.0.4
+* Fixed CLI docs (by @ilyaboka).
+
+## 5.0.3
+* Fixed CLI docs (by Chris Schmich).
+
+## 5.0.2
+* Fixed `webcrypto` import (by Divyansh Singh).
+
+## 5.0.1
+* Fixed Node.js 18 support.
+
+## 5.0
+* Moved Node.js version to Web Crypto API.
+* Removed async API since Web Crypto API has only sync version.
+* Removed Node.js 14 and 16 support.
+
 ## 4.0.2
 * Added [link](https://github.com/sponsors/ai) to Github Sponsors.
 
@@ -12,6 +44,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   We will support 3.x branch with CommonJS for users who can’t migrate to ESM.
 * Removed Node.js 10 and Node.js 12 support.
 * Reduced npm package size.
+
+## 3.3.8
+* Fixed a way to brake Nano ID by passing non-integer size (by @myndzi).
+
+## 3.3.7
+* Fixed `node16` TypeScript support (by Saadi Myftija).
+
+## 3.3.6
+* Fixed package.
+
+## 3.3.5
+* Backport funding information.
 
 ## 3.3.4
 * Fixed `--help` in CLI (by @Lete114).

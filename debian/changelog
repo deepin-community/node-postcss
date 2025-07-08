@@ -1,3 +1,19 @@
+node-postcss (8.4.49+~cs9.2.32-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version (Closes: CVE-2024-55565)
+
+ -- Yadd <yadd@debian.org>  Thu, 12 Dec 2024 14:18:50 +0100
+
+node-postcss (8.4.39+~cs9.2.29-1) unstable; urgency=medium
+
+  * Team upload
+  * Declare compliance with policy 4.7.0
+  * New upstream version 8.4.39+~cs9.2.29
+  * Update commonjs build for nonoid
+
+ -- Yadd <yadd@debian.org>  Tue, 02 Jul 2024 16:28:45 +0400
+
 node-postcss (8.4.31+~cs8.0.26-1) unstable; urgency=medium
 
   * Team upload

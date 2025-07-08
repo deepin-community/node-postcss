@@ -85,6 +85,24 @@ test('gets range from node without end', () => {
   is(warning.endColumn, 2)
 })
 
+test('gets range from node with endIndex 3', () => {
+  let root = parse('a{}')
+  let warning = new Warning('text', { endIndex: 3, index: 0, node: root.first })
+  is(warning.line, 1)
+  is(warning.column, 1)
+  is(warning.endLine, 1)
+  is(warning.endColumn, 4)
+})
+
+test('gets range from node with endIndex 0', () => {
+  let root = parse('a{}')
+  let warning = new Warning('text', { endIndex: 0, index: 0, node: root.first })
+  is(warning.line, 1)
+  is(warning.column, 1)
+  is(warning.endLine, 1)
+  is(warning.endColumn, 2)
+})
+
 test('gets range from word', () => {
   let root = parse('a b{}')
   let warning = new Warning('text', { node: root.first, word: 'b' })

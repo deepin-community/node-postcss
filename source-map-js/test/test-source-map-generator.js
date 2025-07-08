@@ -85,14 +85,6 @@ exports['test adding mappings (invalid)'] = function (assert) {
   assert.throws(function () {
     map.addMapping({});
   });
-
-  // Original file position, but no source.
-  assert.throws(function () {
-    map.addMapping({
-      generated: { line: 1, column: 1 },
-      original: { line: 1, column: 1 }
-    });
-  });
 };
 
 exports['test adding mappings with skipValidation'] = function (assert) {
@@ -776,3 +768,18 @@ exports['test numeric names #231'] = function (assert) {
   assert.equal(map.names.length, 1, "Should have one name");
   assert.equal(map.names[0], "8", "Should have the right name");
 };
+
+exports['test that we can create a generator from a source map with empty mappings'] = function (assert) {
+  var generator = new SourceMapGenerator();
+  generator.addMapping({
+    generated: { line: 1, column: 1 },
+    original: null,
+    source: null,
+  });
+  const originalMap = generator.toJSON();
+  const consumer = new SourceMapConsumer(originalMap);
+  const fromConsumer = SourceMapGenerator.fromSourceMap(consumer);
+  const fromSourceMap = fromConsumer.toJSON();
+  assert.ok(fromSourceMap, "Creating a generator from a map with only generated position did not throw");
+  assert.equal(fromSourceMap.mappings, originalMap.mappings);
+}
