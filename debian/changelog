@@ -1,3 +1,13 @@
+node-postcss (8.4.31+~cs8.0.26-2) unstable; urgency=medium
+
+  * Fix CVE-2024-55565: nanoid mishandles non-integer values.
+    The bundled nanoid v4.0.2 uses `-= 0` to convert size parameters to
+    numbers, which can be abused through valueOf manipulation to cause
+    pool pollution and potential infinite loops (CWE-835).
+    Backported fix from nanoid 3.3.8/5.0.9 using `|= 0` instead.
+
+ -- deepin-ci-robot <packages@deepin.org>  Wed, 13 May 2026 00:50:00 +0800
+
 node-postcss (8.4.31+~cs8.0.26-1) unstable; urgency=medium
 
   * Team upload
